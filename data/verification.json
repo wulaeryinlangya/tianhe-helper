@@ -1,15 +1,35 @@
 {
-  "generated_at": "2026-08-20T12:34:35.556Z",
+  "generated_at": "2026-08-20T17:18:01.187Z",
   "source": "scripts/verify-policies.mjs",
-  "online": true,
+  "online": false,
   "summary": {
-    "total": 19,
-    "ok": 18,
-    "review": 1,
+    "total": 21,
+    "ok": 15,
+    "review": 6,
     "failed": 0,
-    "info": 7
+    "info": 8
   },
   "results": {
+    "tianhe-000": {
+      "status": "review",
+      "issues": [
+        {
+          "field": "amount",
+          "severity": "warn",
+          "message": "金额字段既无数值也无\"以申报指南为准\"标识，可能为幻觉或漏填: 每年专项不超过2亿元"
+        }
+      ]
+    },
+    "tianhe-00a": {
+      "status": "review",
+      "issues": [
+        {
+          "field": "amount",
+          "severity": "warn",
+          "message": "金额字段既无数值也无\"以申报指南为准\"标识，可能为幻觉或漏填: 视财政情况统筹安排"
+        }
+      ]
+    },
     "tianhe-001": {
       "status": "ok",
       "issues": []
@@ -50,10 +70,6 @@
       "status": "ok",
       "issues": []
     },
-    "tianhe-011": {
-      "status": "ok",
-      "issues": []
-    },
     "tianhe-012": {
       "status": "ok",
       "issues": [
@@ -85,8 +101,13 @@
       ]
     },
     "tianhe-015": {
-      "status": "ok",
+      "status": "review",
       "issues": [
+        {
+          "field": "amount",
+          "severity": "warn",
+          "message": "金额字段既无数值也无\"以申报指南为准\"标识，可能为幻觉或漏填: 国家级单冠250万/小巨人100万/省单冠50万"
+        },
         {
           "field": "window",
           "severity": "info",
@@ -95,6 +116,21 @@
       ]
     },
     "tianhe-016": {
+      "status": "review",
+      "issues": [
+        {
+          "field": "amount",
+          "severity": "warn",
+          "message": "金额字段既无数值也无\"以申报指南为准\"标识，可能为幻觉或漏填: 国家级技术中心100万/省级50万"
+        },
+        {
+          "field": "window",
+          "severity": "info",
+          "message": "申报窗口已过期（2025-05-28），建议确认是否应保留在展示列表中"
+        }
+      ]
+    },
+    "tianhe-017": {
       "status": "ok",
       "issues": [
         {
@@ -104,7 +140,7 @@
         }
       ]
     },
-    "tianhe-017": {
+    "tianhe-01a": {
       "status": "ok",
       "issues": [
         {
@@ -130,8 +166,14 @@
       ]
     },
     "tianhe-019": {
-      "status": "ok",
-      "issues": []
+      "status": "review",
+      "issues": [
+        {
+          "field": "policy_validity",
+          "severity": "warn",
+          "message": "有效期文本无法解析出截止日期: 预申报性质，以当年度工信部通知为准"
+        }
+      ]
     }
   }
 }
