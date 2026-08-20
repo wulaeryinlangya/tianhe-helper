@@ -65,7 +65,7 @@ async function onSubmit() {
 <template>
   <div class="form-page">
     <div class="hero">
-      <h1>你的企业能领哪些天河政策补贴？</h1>
+      <h1>你的企业能领哪些<span class="hl">天河政策补贴</span>？</h1>
       <p class="hero-sub">输入企业信息，1秒匹配天河区可申报的惠企政策，含补贴金额与申报窗口倒计时</p>
     </div>
 
