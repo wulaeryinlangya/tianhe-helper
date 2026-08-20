@@ -1,0 +1,401 @@
+[
+  {
+    "id": "tianhe-001",
+    "title": "天河区软件与互联网产业·软件赋能服务业创新应用支持",
+    "unit": "天河区科技工业和信息化局",
+    "amount": "单个项目最高100万元",
+    "window": {"note": "政策2026-08-13印发，具体申报窗口以年度申报指南为准", "source": "官方政策第二条"},
+    "conditions": {
+      "industry": ["软件和信息技术服务", "人工智能与科技服务"],
+      "companyType": ["软件与互联网企业"],
+      "notes": ["面向金融、文化旅游、商贸服务、科技研发等服务业领域", "开展垂类行业大模型、智能无人系统、智能体等创新应用", "每年支持一批优质创新应用项目"]
+    },
+    "materials": [],
+    "materials_note": "具体申报材料以官方年度申报指南为准",
+    "summary": "鼓励软件与互联网企业面向服务业开展垂类大模型、智能体等创新应用，每个项目最高给予100万元资金支持。",
+    "tags": ["软件", "互联网", "大模型", "智能体", "服务业"],
+    "entry_url": "https://thzwb.thnet.gov.cn/policy",
+    "source": "《广州市天河区促进软件与互联网产业创新发展的若干政策措施》第二条",
+    "source_url": "http://www.thnet.gov.cn/gzthkgx/gkmlpt/content/10/10963/post_10963898.html",
+    "policy_validity": "有效期至2028年12月31日",
+    "contact": "020-38622893",
+    "publish_date": "2026-08-13"
+  },
+  {
+    "id": "tianhe-002",
+    "title": "天河区软件与互联网产业·软件赋能制造业示范应用支持",
+    "unit": "天河区科技工业和信息化局",
+    "amount": "单个项目最高100万元",
+    "window": {"note": "政策2026-08-13印发，具体申报窗口以年度申报指南为准", "source": "官方政策第三条"},
+    "conditions": {
+      "industry": ["软件和信息技术服务", "高端制造"],
+      "companyType": ["软件与互联网企业"],
+      "notes": ["面向汽车、装备制造、时尚消费品、医疗器械、家居家电、电子信息等制造业领域", "通过前沿部署工程师（FDE）驻场共创等新模式", "开展智能软件、工业智能体示范应用"]
+    },
+    "materials": [],
+    "materials_note": "具体申报材料以官方年度申报指南为准",
+    "summary": "鼓励软件企业通过FDE驻场共创等模式赋能制造业，每年支持一批示范应用项目，每个项目最高100万元。",
+    "tags": ["软件", "制造", "示范应用", "FDE"],
+    "entry_url": "https://thzwb.thnet.gov.cn/policy",
+    "source": "《广州市天河区促进软件与互联网产业创新发展的若干政策措施》第三条",
+    "source_url": "http://www.thnet.gov.cn/gzthkgx/gkmlpt/content/10/10963/post_10963898.html",
+    "policy_validity": "有效期至2028年12月31日",
+    "contact": "020-38622893",
+    "publish_date": "2026-08-13"
+  },
+  {
+    "id": "tianhe-003",
+    "title": "天河区软件与互联网产业·人工智能赋能软件研发支持",
+    "unit": "天河区科技工业和信息化局",
+    "amount": "单个项目最高100万元",
+    "window": {"note": "政策2026-08-13印发，具体申报窗口以年度申报指南为准", "source": "官方政策第四条"},
+    "conditions": {
+      "industry": ["软件和信息技术服务", "人工智能与科技服务"],
+      "companyType": ["软件与互联网企业"],
+      "notes": ["鼓励搭建公共性AI赋能软件产业底座平台", "推广MCP（模型上下文协议）等开放协议应用", "培育AI辅助开发、智能体工程、多智能体系统、AaaS、RaaS等新形态"]
+    },
+    "materials": [],
+    "materials_note": "具体申报材料以官方年度申报指南为准",
+    "summary": "支持人工智能重构软件研发和服务模式，每年支持一批AI赋能软件研发项目，每个项目最高100万元。",
+    "tags": ["AI", "人工智能", "软件", "智能体", "MCP"],
+    "entry_url": "https://thzwb.thnet.gov.cn/policy",
+    "source": "《广州市天河区促进软件与互联网产业创新发展的若干政策措施》第四条",
+    "source_url": "http://www.thnet.gov.cn/gzthkgx/gkmlpt/content/10/10963/post_10963898.html",
+    "policy_validity": "有效期至2028年12月31日",
+    "contact": "020-38622893",
+    "publish_date": "2026-08-13"
+  },
+  {
+    "id": "tianhe-004",
+    "title": "天河区软件与互联网产业·开源软件研发适配支持",
+    "unit": "天河区科技工业和信息化局",
+    "amount": "单个产品最高100万元",
+    "window": {"note": "政策2026-08-13印发，具体申报窗口以年度申报指南为准", "source": "官方政策第五条"},
+    "conditions": {
+      "industry": ["软件和信息技术服务"],
+      "companyType": ["软件与互联网企业"],
+      "notes": ["基于开放原子开源基金会名单内的操作系统、数据库、AI开发框架等重大项目", "开展软件产品研发适配", "应用成效突出、具备行业影响力的开源软件产品"]
+    },
+    "materials": [],
+    "materials_note": "具体申报材料以官方年度申报指南为准",
+    "summary": "支持基于重大开源项目的软件产品研发适配，每年支持一批成效突出的开源产品，每个产品最高100万元。",
+    "tags": ["开源", "软件", "研发", "适配"],
+    "entry_url": "https://thzwb.thnet.gov.cn/policy",
+    "source": "《广州市天河区促进软件与互联网产业创新发展的若干政策措施》第五条",
+    "source_url": "http://www.thnet.gov.cn/gzthkgx/gkmlpt/content/10/10963/post_10963898.html",
+    "policy_validity": "有效期至2028年12月31日",
+    "contact": "020-38622893",
+    "publish_date": "2026-08-13"
+  },
+  {
+    "id": "tianhe-005",
+    "title": "天河区软件与互联网产业·首版次软件产品研发支持",
+    "unit": "天河区科技工业和信息化局",
+    "amount": "最高100万元",
+    "window": {"note": "政策2026-08-13印发，具体申报窗口以年度申报指南为准", "source": "官方政策第六条"},
+    "conditions": {
+      "industry": ["软件和信息技术服务"],
+      "companyType": ["软件与互联网企业"],
+      "notes": ["围绕基础软件、工业软件、新兴技术软件、信息安全软件、信创软件、智能软件、开源软件等", "加强操作系统、中间件、工业设计与控制等关键技术攻关", "符合首版次软件产品研发项目"]
+    },
+    "materials": [],
+    "materials_note": "具体申报材料以官方年度申报指南为准",
+    "summary": "支持核心软件关键技术攻关，对符合首版次软件产品研发项目给予最高100万元支持。",
+    "tags": ["软件", "首版次", "关键软件", "研发"],
+    "entry_url": "https://thzwb.thnet.gov.cn/policy",
+    "source": "《广州市天河区促进软件与互联网产业创新发展的若干政策措施》第六条",
+    "source_url": "http://www.thnet.gov.cn/gzthkgx/gkmlpt/content/10/10963/post_10963898.html",
+    "policy_validity": "有效期至2028年12月31日",
+    "contact": "020-38622893",
+    "publish_date": "2026-08-13"
+  },
+  {
+    "id": "tianhe-006",
+    "title": "天河区软件与互联网产业·优质中小企业发展支持",
+    "unit": "天河区科技工业和信息化局",
+    "amount": "每家企业一次性最高100万元",
+    "window": {"note": "政策2026-08-13印发，具体申报窗口以年度申报指南为准", "source": "官方政策第七条"},
+    "conditions": {
+      "industry": ["软件和信息技术服务", "人工智能与科技服务"],
+      "companyType": ["小微企业", "科技型中小企业", "专精特新企业"],
+      "notes": ["位于产业基础核心领域、产业链关键环节", "创新能力突出、掌握核心技术、细分市场占有率高、质量效益优", "优质软件与互联网中小企业"]
+    },
+    "materials": [],
+    "materials_note": "具体申报材料以官方年度申报指南为准",
+    "summary": "支持创新能力突出、掌握核心技术的优质软件与互联网中小企业，每家企业一次性最高100万元。",
+    "tags": ["软件", "中小企业", "创新", "专精特新"],
+    "entry_url": "https://thzwb.thnet.gov.cn/policy",
+    "source": "《广州市天河区促进软件与互联网产业创新发展的若干政策措施》第七条",
+    "source_url": "http://www.thnet.gov.cn/gzthkgx/gkmlpt/content/10/10963/post_10963898.html",
+    "policy_validity": "有效期至2028年12月31日",
+    "contact": "020-38622893",
+    "publish_date": "2026-08-13"
+  },
+  {
+    "id": "tianhe-007",
+    "title": "天河区软件与互联网产业·风险投资激励支持",
+    "unit": "天河区科技工业和信息化局",
+    "amount": "按获投金额3%，每家企业每年最高100万元",
+    "window": {"note": "政策2026-08-13印发，具体申报窗口以年度申报指南为准", "source": "官方政策第九条"},
+    "conditions": {
+      "industry": ["软件和信息技术服务", "人工智能与科技服务"],
+      "companyType": ["小微企业", "科技型中小企业"],
+      "notes": ["新获得风险投资的软件与互联网企业", "以'补改投'方式按其实际获投金额的3%给予激励", "每家企业每年支持最高100万元"]
+    },
+    "materials": [],
+    "materials_note": "具体申报材料以官方年度申报指南为准",
+    "summary": "对新获得风险投资的软件互联网企业，以'补改投'方式按实际获投金额3%给予激励，每年最高100万元。",
+    "tags": ["软件", "风险投资", "融资", "补改投"],
+    "entry_url": "https://thzwb.thnet.gov.cn/policy",
+    "source": "《广州市天河区促进软件与互联网产业创新发展的若干政策措施》第九条",
+    "source_url": "http://www.thnet.gov.cn/gzthkgx/gkmlpt/content/10/10963/post_10963898.html",
+    "policy_validity": "有效期至2028年12月31日",
+    "contact": "020-38622893",
+    "publish_date": "2026-08-13"
+  },
+  {
+    "id": "tianhe-008",
+    "title": "天河区个体工商户转型升级支持",
+    "unit": "天河区发展和改革局等六部门",
+    "amount": "2万元",
+    "window": {"note": "政策有效期至2026-12-31，具体申报窗口以官方申报指南为准", "source": "官方政策第二条"},
+    "conditions": {
+      "industry": ["餐饮业", "批发和零售业", "文化创意", "现代服务业", "软件和信息技术服务"],
+      "companyType": ["个体工商户"],
+      "notes": ["已登记为增值税一般纳税人，拥有专利权或商标权的个体工商户", "首次达到工业、住宿和餐饮业、软件业、租赁和商务服务业、科研和技术服务业、居民服务修理和其他服务业、文化体育和娱乐业企业标准", "给予2万元支持，可与第三条叠加"]
+    },
+    "materials": [],
+    "materials_note": "具体申报材料以官方申报指南为准",
+    "summary": "个体工商户首次达到企业标准的，给予2万元转型升级支持，可与小微企业'首达标'支持叠加。",
+    "tags": ["个体工商户", "转型升级", "个转企"],
+    "entry_url": "https://thzwb.thnet.gov.cn/policy",
+    "source": "《天河区加快培育个体工商户和小微企业转型升级的若干政策措施》第二条",
+    "source_url": "http://www.thnet.gov.cn/gzjg/qzf/qtjj/ssqy/content/post_10670276.html",
+    "policy_validity": "有效期至2026年12月31日",
+    "publish_date": "2024-06-14"
+  },
+  {
+    "id": "tianhe-009",
+    "title": "天河区小微企业'首达标'支持（住宿/餐饮）",
+    "unit": "天河区发展和改革局等六部门",
+    "amount": "5万元",
+    "window": {"note": "政策有效期至2026-12-31，具体申报窗口以官方申报指南为准", "source": "官方政策第三条"},
+    "conditions": {
+      "industry": ["餐饮业", "现代服务业"],
+      "companyType": ["小微企业", "个体工商户"],
+      "notes": ["当年度'首达标'，且达标当年度营业额达到500万元以上的住宿业企业", "当年度'首达标'，且达标当年度营业额达到500万元以上的餐饮业企业", "给予5万元支持"]
+    },
+    "materials": [],
+    "materials_note": "具体申报材料以官方申报指南为准",
+    "summary": "住宿、餐饮业小微企业当年度'首达标'且营业额达500万元以上的，给予5万元支持。",
+    "tags": ["小微企业", "首达标", "餐饮", "住宿"],
+    "entry_url": "https://thzwb.thnet.gov.cn/policy",
+    "source": "《天河区加快培育个体工商户和小微企业转型升级的若干政策措施》第三条",
+    "source_url": "http://www.thnet.gov.cn/gzjg/qzf/qtjj/ssqy/content/post_10670276.html",
+    "policy_validity": "有效期至2026年12月31日",
+    "publish_date": "2024-06-14"
+  },
+  {
+    "id": "tianhe-010",
+    "title": "天河区小微企业'首达标'支持（软件/商务服务）",
+    "unit": "天河区发展和改革局等六部门",
+    "amount": "5万元",
+    "window": {"note": "政策有效期至2026-12-31，具体申报窗口以官方申报指南为准", "source": "官方政策第三条"},
+    "conditions": {
+      "industry": ["软件和信息技术服务", "现代服务业"],
+      "companyType": ["小微企业", "个体工商户"],
+      "notes": ["软件业：月度'首达标'，或年度'首达标'且营收达3000万元以上", "租赁和商务服务业：月度'首达标'，或年度'首达标'且营收达3000万元以上", "给予5万元支持"]
+    },
+    "materials": [],
+    "materials_note": "具体申报材料以官方申报指南为准",
+    "summary": "软件业、租赁和商务服务业小微企业'首达标'且营收达标的企业，给予5万元支持。",
+    "tags": ["小微企业", "首达标", "软件", "商务服务"],
+    "entry_url": "https://thzwb.thnet.gov.cn/policy",
+    "source": "《天河区加快培育个体工商户和小微企业转型升级的若干政策措施》第三条",
+    "source_url": "http://www.thnet.gov.cn/gzjg/qzf/qtjj/ssqy/content/post_10670276.html",
+    "policy_validity": "有效期至2026年12月31日",
+    "publish_date": "2024-06-14"
+  },
+  {
+    "id": "tianhe-011",
+    "title": "天河区小微企业'首达标'支持（电商/批发零售）",
+    "unit": "天河区发展和改革局等六部门",
+    "amount": "5万元",
+    "window": {"note": "政策有效期至2026-12-31，具体申报窗口以官方申报指南为准", "source": "官方政策第三条"},
+    "conditions": {
+      "industry": ["批发和零售业"],
+      "companyType": ["小微企业", "个体工商户"],
+      "notes": ["批发和零售业：当年度'首达标'且通过公共网络销售额达500万元以上", "居民服务、修理和其他服务业：月度'首达标'或年度'首达标'且营收达2000万元以上", "文化体育和娱乐业：当年度'首达标'即可"]
+    },
+    "materials": [],
+    "materials_note": "具体申报材料以官方申报指南为准",
+    "summary": "批发零售小微企业'首达标'且公共网络销售额达标（电商）的，给予5万元支持。",
+    "tags": ["小微企业", "电商", "批发", "零售", "首达标"],
+    "entry_url": "https://thzwb.thnet.gov.cn/policy",
+    "source": "《天河区加快培育个体工商户和小微企业转型升级的若干政策措施》第三条",
+    "source_url": "http://www.thnet.gov.cn/gzjg/qzf/qtjj/ssqy/content/post_10670276.html",
+    "policy_validity": "有效期至2026年12月31日",
+    "publish_date": "2024-06-14"
+  },
+  {
+    "id": "tianhe-012",
+    "title": "天河区现代都市工业·'新入规'工业企业支持",
+    "unit": "天河区科技工业和信息化局",
+    "amount": "按官方申报指南",
+    "window": {"start": "2025-03-28", "end": "2025-05-28", "note": "2024年度申报批次", "source": "官方申报通知"},
+    "conditions": {
+      "industry": ["高端制造"],
+      "companyType": ["工业企业"],
+      "notes": ["'新入规'工业企业", "对应政策第一条", "责任科室：都市工业科 38624099"]
+    },
+    "materials": [],
+    "materials_note": "具体申报材料以官方申报指南为准",
+    "summary": "天河区现代都市工业政策'新入规'工业企业支持，2024年度申报窗口2025年3月28日-5月28日。",
+    "tags": ["工业", "新入规", "规上企业"],
+    "entry_url": "https://thzwb.thnet.gov.cn/policy",
+    "source": "《天河区加快推动现代都市工业高质量发展的若干政策措施》第一条（2024年度申报通知）",
+    "source_url": "http://www.thnet.gov.cn/thqzdlyxxgkzl/kjglhxmjf/kjjhgl/lxxx/content/post_10215675.html",
+    "contact": "020-38624099"
+  },
+  {
+    "id": "tianhe-013",
+    "title": "天河区现代都市工业·发展支持",
+    "unit": "天河区科技工业和信息化局",
+    "amount": "按官方申报指南",
+    "window": {"start": "2025-03-28", "end": "2025-05-28", "note": "2024年度申报批次", "source": "官方申报通知"},
+    "conditions": {
+      "industry": ["高端制造"],
+      "companyType": ["工业企业"],
+      "notes": ["现代都市工业发展支持", "对应政策第二条", "责任科室：都市工业科 38624099"]
+    },
+    "materials": [],
+    "materials_note": "具体申报材料以官方申报指南为准",
+    "summary": "天河区现代都市工业政策发展支持，2024年度申报窗口2025年3月28日-5月28日。",
+    "tags": ["工业", "发展支持"],
+    "entry_url": "https://thzwb.thnet.gov.cn/policy",
+    "source": "《天河区加快推动现代都市工业高质量发展的若干政策措施》第二条（2024年度申报通知）",
+    "source_url": "http://www.thnet.gov.cn/thqzdlyxxgkzl/kjglhxmjf/kjjhgl/lxxx/content/post_10215675.html",
+    "contact": "020-38624099"
+  },
+  {
+    "id": "tianhe-014",
+    "title": "天河区现代都市工业·入园上楼支持",
+    "unit": "天河区科技工业和信息化局",
+    "amount": "按官方申报指南",
+    "window": {"start": "2025-03-28", "end": "2025-05-28", "note": "2024年度申报批次", "source": "官方申报通知"},
+    "conditions": {
+      "industry": ["高端制造"],
+      "companyType": ["工业企业"],
+      "notes": ["现代都市工业入园上楼支持", "对应政策第三条", "责任科室：都市工业科 38624099"]
+    },
+    "materials": [],
+    "materials_note": "具体申报材料以官方申报指南为准",
+    "summary": "天河区现代都市工业入园上楼支持，2024年度申报窗口2025年3月28日-5月28日。",
+    "tags": ["工业", "入园上楼"],
+    "entry_url": "https://thzwb.thnet.gov.cn/policy",
+    "source": "《天河区加快推动现代都市工业高质量发展的若干政策措施》第三条（2024年度申报通知）",
+    "source_url": "http://www.thnet.gov.cn/thqzdlyxxgkzl/kjglhxmjf/kjjhgl/lxxx/content/post_10215675.html",
+    "contact": "020-38624099"
+  },
+  {
+    "id": "tianhe-015",
+    "title": "天河区现代都市工业·能级提升支持",
+    "unit": "天河区科技工业和信息化局",
+    "amount": "按官方申报指南",
+    "window": {"start": "2025-03-28", "end": "2025-05-28", "note": "2024年度申报批次", "source": "官方申报通知"},
+    "conditions": {
+      "industry": ["高端制造"],
+      "companyType": ["工业企业"],
+      "notes": ["现代都市工业能级提升支持", "对应政策第四条", "责任科室：都市工业科 38624099"]
+    },
+    "materials": [],
+    "materials_note": "具体申报材料以官方申报指南为准",
+    "summary": "天河区现代都市工业能级提升支持，2024年度申报窗口2025年3月28日-5月28日。",
+    "tags": ["工业", "能级提升"],
+    "entry_url": "https://thzwb.thnet.gov.cn/policy",
+    "source": "《天河区加快推动现代都市工业高质量发展的若干政策措施》第四条（2024年度申报通知）",
+    "source_url": "http://www.thnet.gov.cn/thqzdlyxxgkzl/kjglhxmjf/kjjhgl/lxxx/content/post_10215675.html",
+    "contact": "020-38624099"
+  },
+  {
+    "id": "tianhe-016",
+    "title": "天河区现代都市工业·技术创新支持",
+    "unit": "天河区科技工业和信息化局",
+    "amount": "按官方申报指南",
+    "window": {"start": "2025-03-28", "end": "2025-05-28", "note": "2024年度申报批次", "source": "官方申报通知"},
+    "conditions": {
+      "industry": ["高端制造"],
+      "companyType": ["工业企业"],
+      "notes": ["现代都市工业技术创新支持", "对应政策第五条", "责任科室：都市工业科 38624099"]
+    },
+    "materials": [],
+    "materials_note": "具体申报材料以官方申报指南为准",
+    "summary": "天河区现代都市工业技术创新支持，2024年度申报窗口2025年3月28日-5月28日。",
+    "tags": ["工业", "技术创新"],
+    "entry_url": "https://thzwb.thnet.gov.cn/policy",
+    "source": "《天河区加快推动现代都市工业高质量发展的若干政策措施》第五条（2024年度申报通知）",
+    "source_url": "http://www.thnet.gov.cn/thqzdlyxxgkzl/kjglhxmjf/kjjhgl/lxxx/content/post_10215675.html",
+    "contact": "020-38624099"
+  },
+  {
+    "id": "tianhe-017",
+    "title": "天河区现代都市工业·新质生产力发展支持",
+    "unit": "天河区科技工业和信息化局",
+    "amount": "按官方申报指南",
+    "window": {"start": "2025-03-28", "end": "2025-05-28", "note": "2024年度申报批次", "source": "官方申报通知"},
+    "conditions": {
+      "industry": ["高端制造"],
+      "companyType": ["工业企业"],
+      "notes": ["现代都市工业新质生产力发展支持", "对应政策第六条", "责任科室：都市工业科 38624099"]
+    },
+    "materials": [],
+    "materials_note": "具体申报材料以官方申报指南为准",
+    "summary": "天河区现代都市工业新质生产力发展支持，2024年度申报窗口2025年3月28日-5月28日。",
+    "tags": ["工业", "新质生产力"],
+    "entry_url": "https://thzwb.thnet.gov.cn/policy",
+    "source": "《天河区加快推动现代都市工业高质量发展的若干政策措施》第六条（2024年度申报通知）",
+    "source_url": "http://www.thnet.gov.cn/thqzdlyxxgkzl/kjglhxmjf/kjjhgl/lxxx/content/post_10215675.html",
+    "contact": "020-38624099"
+  },
+  {
+    "id": "tianhe-018",
+    "title": "天河区高端专业服务业·强化科技服务主体培育",
+    "unit": "天河区科技工业和信息化局",
+    "amount": "按官方申报指南",
+    "window": {"start": "2026-07-06", "end": "2026-07-10", "note": "2026年第一季度申报批次", "source": "官方申报通知"},
+    "conditions": {
+      "industry": ["现代服务业", "软件和信息技术服务", "人工智能与科技服务"],
+      "notes": ["强化科技服务主体培育", "对应政策第十三条", "责任科室：科技服务科 38622837"]
+    },
+    "materials": [],
+    "materials_note": "具体申报材料以官方申报指南为准",
+    "summary": "天河区高端专业服务业高质量发展政策·强化科技服务主体培育，2026年第一季度申报窗口2026年7月6日-10日。",
+    "tags": ["高端专业服务", "科技服务", "现代服务"],
+    "entry_url": "https://thzwb.thnet.gov.cn/policy",
+    "source": "《天河区加快推动高端专业服务业高质量发展的若干政策措施》第十三条（2026年Q1申报通知）",
+    "source_url": "http://www.thnet.gov.cn/thqzdlyxxgkzl/kjglhxmjf/kjjhgl/sbxm/content/post_10876352.html",
+    "contact": "020-38622837",
+    "publish_date": "2026-06-18"
+  },
+  {
+    "id": "tianhe-019",
+    "title": "天河区专精特新'小巨人'预申报",
+    "unit": "天河区科技工业和信息化局",
+    "amount": "小巨人企业培育（预申报）",
+    "window": {"note": "预申报材料2026-01-23前提交", "source": "官方预申报通知"},
+    "conditions": {
+      "industry": ["高端制造", "软件和信息技术服务", "人工智能与科技服务"],
+      "companyType": ["专精特新企业"],
+      "notes": ["2026年度重点'小巨人'、专精特新'小巨人'预申报", "填写《重点小巨人企业信息表》《三新一强推进计划》", "材料电子版发送至 myzxqyk@126.com"]
+    },
+    "materials": ["重点'小巨人'企业信息表", "'三新''一强'推进计划", "第八批专精特新'小巨人'企业预报书"],
+    "materials_note": "申报材料电子版（无需扫描盖章）",
+    "summary": "天河区2026年度重点'小巨人'、专精特新'小巨人'预申报，材料2026年1月23日前提交。",
+    "tags": ["专精特新", "小巨人", "预申报"],
+    "entry_url": "https://thzwb.thnet.gov.cn/policy",
+    "source": "天河区科工信局《关于开展2026年度重点小巨人、专精特新小巨人预申报的通知》",
+    "source_url": "http://www.thnet.gov.cn/thqzdlyxxgkzl/kjglhxmjf/kjjhgl/sbxm/content/post_10647595.html",
+    "contact": "020-38622290",
+    "publish_date": "2025-12-29"
+  }
+]
