@@ -35,7 +35,8 @@ function matchReasons(tags, conditions, condLabel) {
     // 精确命中：企业的某个标签直接等于政策条件
     const exact = tags.find(t => t === c || t.includes(c) || c.includes(t))
     if (exact) {
-      hits.push({ label: condLabel, detail: `${exact} → ${c}`, score: 1 })
+      // detail 只展示命中的政策条件本身（更直观），内部匹配到的画像标签不对外展示
+      hits.push({ label: condLabel, detail: c, score: 1 })
       score += 1
     }
   }
@@ -82,19 +83,19 @@ export function rankPolicies(profile) {
 
     // 规模匹配
     if (conds.employees && profile.employees && conds.employees.includes(profile.employees)) {
-      reasons.push({ label: '员工规模', detail: `${profile.employees} ✓`, score: 1.5 })
-      score += 1.5
+      reasons.push({ label: '员工规模', detail: `${profile.employees} ✓`, score: 2 })
+      score += 2
     }
     if (conds.revenue && profile.revenue && conds.revenue.includes(profile.revenue)) {
-      reasons.push({ label: '营收规模', detail: `${profile.revenue} ✓`, score: 1.5 })
-      score += 1.5
+      reasons.push({ label: '营收规模', detail: `${profile.revenue} ✓`, score: 2 })
+      score += 2
     }
 
     // 标签关键词匹配
     const tagHit = (p.tags || []).filter(t => allTags.some(a => a && (t.includes(a) || a.includes(t))))
     if (tagHit.length > 0) {
-      reasons.push({ label: '政策关键词', detail: tagHit.join('、'), score: tagHit.length * 1.5 })
-      score += tagHit.length * 1.5
+      reasons.push({ label: '政策关键词', detail: tagHit.join('、'), score: tagHit.length * 2 })
+      score += tagHit.length * 2
     }
 
     // 提取政策条件中的具体说明作为"参考条件"（用于展示需要满足但画像未覆盖的）
