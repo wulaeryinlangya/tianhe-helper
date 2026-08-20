@@ -1,0 +1,137 @@
+{
+  "generated_at": "2026-08-20T12:34:35.556Z",
+  "source": "scripts/verify-policies.mjs",
+  "online": true,
+  "summary": {
+    "total": 19,
+    "ok": 18,
+    "review": 1,
+    "failed": 0,
+    "info": 7
+  },
+  "results": {
+    "tianhe-001": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-002": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-003": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-004": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-005": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-006": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-007": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-008": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-009": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-010": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-011": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-012": {
+      "status": "ok",
+      "issues": [
+        {
+          "field": "window",
+          "severity": "info",
+          "message": "申报窗口已过期（2025-05-28），建议确认是否应保留在展示列表中"
+        }
+      ]
+    },
+    "tianhe-013": {
+      "status": "ok",
+      "issues": [
+        {
+          "field": "window",
+          "severity": "info",
+          "message": "申报窗口已过期（2025-05-28），建议确认是否应保留在展示列表中"
+        }
+      ]
+    },
+    "tianhe-014": {
+      "status": "ok",
+      "issues": [
+        {
+          "field": "window",
+          "severity": "info",
+          "message": "申报窗口已过期（2025-05-28），建议确认是否应保留在展示列表中"
+        }
+      ]
+    },
+    "tianhe-015": {
+      "status": "ok",
+      "issues": [
+        {
+          "field": "window",
+          "severity": "info",
+          "message": "申报窗口已过期（2025-05-28），建议确认是否应保留在展示列表中"
+        }
+      ]
+    },
+    "tianhe-016": {
+      "status": "ok",
+      "issues": [
+        {
+          "field": "window",
+          "severity": "info",
+          "message": "申报窗口已过期（2025-05-28），建议确认是否应保留在展示列表中"
+        }
+      ]
+    },
+    "tianhe-017": {
+      "status": "ok",
+      "issues": [
+        {
+          "field": "window",
+          "severity": "info",
+          "message": "申报窗口已过期（2025-05-28），建议确认是否应保留在展示列表中"
+        }
+      ]
+    },
+    "tianhe-018": {
+      "status": "review",
+      "issues": [
+        {
+          "field": "window",
+          "severity": "info",
+          "message": "申报窗口已过期（2026-07-10），建议确认是否应保留在展示列表中"
+        },
+        {
+          "field": "window",
+          "severity": "warn",
+          "message": "窗口开始月份（7月）与 note 中标注的\"第一季度\"矛盾，请对照原文复核"
+        }
+      ]
+    },
+    "tianhe-019": {
+      "status": "ok",
+      "issues": []
+    }
+  }
+}

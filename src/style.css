@@ -299,6 +299,108 @@ body {
   box-shadow: 0 4px 12px rgba(26, 95, 180, 0.12);
 }
 
+/* 键盘可达：Tab 聚焦时的可见轮廓 */
+.policy-card:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* 列表筛选工具栏 */
+.list-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.search-input {
+  flex: 1 1 200px;
+  min-width: 160px;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: var(--sans);
+  color: var(--text);
+  background: var(--card);
+}
+
+.search-input:focus {
+  outline: 2px solid var(--primary-light);
+  border-color: var(--primary);
+}
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.filter-chip {
+  border: 1px solid var(--border);
+  background: var(--card);
+  border-radius: 16px;
+  padding: 5px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--text);
+  font-family: var(--sans);
+  transition: all 0.2s;
+}
+
+.filter-chip:hover {
+  border-color: var(--primary);
+}
+
+.filter-chip.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.veri-time {
+  width: 100%;
+  font-size: 12px;
+  color: var(--text-2);
+}
+
+.truncate-hint {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-2);
+  background: var(--card);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+/* 核验状态徽章 */
+.veri-badge {
+  margin-left: auto;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+
+.veri-badge.ok {
+  background: #e8f5e9;
+  color: var(--success);
+}
+
+.veri-badge.review {
+  background: var(--accent-light);
+  color: #b26a00;
+}
+
+.veri-badge.failed {
+  background: #fbe9e7;
+  color: var(--danger);
+}
+
 .card-top {
   display: flex;
   align-items: center;
@@ -325,6 +427,7 @@ body {
   font-weight: 600;
   color: var(--text);
   line-height: 1.4;
+  flex: 1;
 }
 
 .policy-summary {
@@ -456,6 +559,33 @@ body {
   margin-bottom: 16px;
 }
 
+.detail-source-line {
+  font-size: 13px;
+  color: var(--text-2);
+  background: var(--bg);
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin-bottom: 8px;
+}
+
+.condition-group {
+  margin-bottom: 8px;
+}
+
+.condition-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 2px;
+}
+
+.validity-line {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
 .detail-section {
   border-top: 1px solid var(--border);
   padding-top: 12px;
@@ -490,6 +620,73 @@ body {
 .entry-link a {
   color: var(--primary);
   font-weight: 500;
+}
+
+/* 数据核验状态块（确定性脚本生成，与 AI 无关） */
+.verify-block {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-top: 16px;
+  font-size: 13px;
+}
+
+.verify-block.ok {
+  background: #f2faf3;
+  border-color: #c8e6c9;
+}
+
+.verify-block.review {
+  background: var(--accent-light);
+  border-color: #f3dfb8;
+}
+
+.verify-block.failed {
+  background: #fbe9e7;
+  border-color: #f0c0bb;
+}
+
+.verify-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.verify-label {
+  font-weight: 700;
+}
+
+.verify-time {
+  color: var(--text-2);
+  font-size: 12px;
+}
+
+.verify-issues {
+  margin-top: 8px;
+  padding-left: 18px;
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.7;
+}
+
+.verify-issues li.error {
+  color: var(--danger);
+}
+
+.verify-issues li.warn {
+  color: #b26a00;
+}
+
+.verify-issues li.info {
+  color: var(--text-2);
+}
+
+.verify-missing {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--text-2);
+  text-align: center;
 }
 
 /* QA */
@@ -550,7 +747,31 @@ body {
   padding: 16px;
   font-size: 14px;
   line-height: 1.7;
-  white-space: pre-wrap;
+  color: var(--text);
+}
+
+.qa-answer p {
+  margin: 0 0 8px;
+}
+
+.qa-answer p:last-child {
+  margin-bottom: 0;
+}
+
+.qa-answer ul,
+.qa-answer ol {
+  margin: 0 0 8px;
+  padding-left: 20px;
+}
+
+.qa-answer h4 {
+  font-size: 14px;
+  margin: 10px 0 4px;
+}
+
+.qa-answer a {
+  color: var(--primary-dark);
+  word-break: break-all;
 }
 
 .degrade-tip {

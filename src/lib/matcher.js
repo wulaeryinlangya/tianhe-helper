@@ -108,8 +108,8 @@ export function rankPolicies(profile) {
     }
   })
 
+  // 返回全部得分>0的结果，按分数降序；展示层（PolicyList）负责截断并提示总数
   return scored
     .filter(p => p._score > 0)
     .sort((a, b) => b._score - a._score)
-    .slice(0, 8)
 }

@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# 采集流水线工作区与本地 npm 缓存
+.npm-cache/
+data/staging/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
