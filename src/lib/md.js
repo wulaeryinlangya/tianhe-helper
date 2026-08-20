@@ -19,14 +19,26 @@ export function renderMarkdown(src) {
 
   let html = escapeHtml(text)
 
-  // 1) Markdown 链接 [文字](url)
-  html = html.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s）]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+  // 1) Markdown 链接 [文字](url)：先换成占位符，避免步骤 2 的裸 URL 规则重复包裹 href
+  const links = []
+  html = html.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s）]+)\)/g, (m, label, url) => {
+    links.push({ label, url })
+    return `@@MDLINK${links.length - 1}@@`
+  })
+
   // 2) 裸 URL（严格字符集，自动在中文标点处截断）
   html = html.replace(RE_URL_CHARS, '<a href="$&" target="_blank" rel="noopener">$&</a>')
-  // 3) 加粗
+
+  // 3) 恢复 Markdown 链接占位符
+  html = html.replace(/@@MDLINK(\d+)@@/g, (m, i) => {
+    const l = links[Number(i)]
+    return l ? `<a href="${l.url}" target="_blank" rel="noopener">${l.label}</a>` : m
+  })
+
+  // 4) 加粗
   html = html.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
 
-  // 4) 分块：按行解析列表 / 标题 / 段落
+  // 5) 分块：按行解析列表 / 标题 / 段落
   const lines = html.split('\n')
   const blocks = []
   let listType = null

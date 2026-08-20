@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { askQuestion } from '../lib/llm'
-import { demoAnswers } from '../lib/demo'
+import { getDemoAnswer } from '../lib/demo'
 import { renderMarkdown } from '../lib/md'
 import { policyVerification, verificationGeneratedAt } from '../lib/verification'
 
@@ -54,14 +54,14 @@ async function onAsk(q) {
   degraded.value = false
   try {
     if (props.demo) {
-      answer.value = demoAnswers[props.policy.id] || demoAnswers.default
+      answer.value = getDemoAnswer(props.policy, props.profile)
     } else {
       try {
         answer.value = await askQuestion(props.policy, props.profile, questionText)
       } catch (e) {
         // 端云协同：云端失败自动降级到本地预设回答
         degraded.value = true
-        answer.value = demoAnswers[props.policy.id] || demoAnswers.default
+        answer.value = getDemoAnswer(props.policy, props.profile)
       }
     }
   } finally {

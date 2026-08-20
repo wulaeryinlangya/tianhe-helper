@@ -1,15 +1,59 @@
-// 演示模式离线数据：预生成的结果，?demo=1 时使用，不依赖网络/API
+// 演示模式离线数据：?demo=1 或 AI 问答失败降级时使用，不依赖网络/API
 import { rankPolicies } from './matcher'
 
 export function getDemoMatches(profile) {
   return rankPolicies(profile)
 }
 
-// 演示模式的预置问答（按政策id，内容基于官方政策原文）
-export const demoAnswers = {
-  'tianhe-006': '您好！根据您的企业信息（软件和信息技术服务、科技型中小企业），**很可能符合**本政策的申报条件。\n\n**政策依据**：该政策面向"位于产业基础核心领域、产业链关键环节，创新能力突出、掌握核心技术、细分市场占有率高、质量效益优的优质软件与互联网中小企业"，每家企业一次性最高100万元支持。\n\n**申报流程**：\n1. 登录【天河区政策兑现服务平台】（https://thzwb.thnet.gov.cn/policy）\n2. 注册登记后，点击【兑现申报】搜索"优质中小企业发展"填报\n3. 按要求提交佐证材料（创新能力、核心技术、市场占有率等证明）\n4. 科工信局审核\n\n**重要说明**：\n- 该政策2026年8月13日印发，具体申报窗口与材料要求以**官方年度申报指南为准**\n- 咨询电话：020-38622893\n- 政策有效期至2028年12月31日',
-  'tianhe-008': '您好！根据您的企业类型（个体工商户），**符合**本政策的申报方向。\n\n**政策依据**：政策对首次达到工业、住宿餐饮业、软件业、租赁商务服务业等行业企业标准的个体工商户，给予**2万元**转型升级支持。\n\n**申报流程**：\n1. 登录【天河区政策兑现服务平台】（https://thzwb.thnet.gov.cn/policy）\n2. 搜索"个体工商户转型升级"填报\n3. 提交营业执照、一般纳税人证明、专利/商标权证书等\n\n**重要说明**：\n- 按季度兑现（一般达标次季度启动申报）\n- 咨询电话：020-38622718（天河区发展和改革局）\n- 政策有效期至2026年12月31日',
-  'tianhe-009': '您好！根据您的企业信息（餐饮业），**符合**本政策的申报方向。\n\n**政策依据**：对当年度"首达标"且营业额达到500万元以上的**餐饮业企业**，给予**5万元**支持；工业企业最高10万元。\n\n**申报流程**：\n1. 登录【天河区政策兑现服务平台】（https://thzwb.thnet.gov.cn/policy）\n2. 搜索"小微企业首达标"填报\n3. 提交营业执照、营业额证明、财务报表\n\n**重要说明**：\n- 按季度兑现（一般达标次季度启动申报）\n- 咨询电话：020-38622718（天河区发展和改革局）\n- 政策有效期至2026年12月31日',
-  'tianhe-019': '您好！这是**专精特新"小巨人"预申报**政策。\n\n**核心要求**：\n1. 属于天河区专精特新企业\n2. 填写《重点"小巨人"企业信息表》《"三新""一强"推进计划》\n3. 申报材料电子版发送至邮箱：myzxqyk@126.com\n\n**注意**：预申报材料须在指定日期前提交，咨询电话：020-38622290',
-  'default': '针对该政策，您的企业是否符合条件需结合官方申报指南综合判断。建议登录【天河区政策兑现服务平台】（https://thzwb.thnet.gov.cn/policy）查看最新申报指南，或直接咨询政策主管部门。'
+// 根据政策数据 + 企业画像生成离线回答（覆盖全部政策，不再落到通用兜底）。
+// 字段全部取自 policies.json 真实数据，不编造；「是否符合」只提示匹配点、不下死结论，
+// 引导用户对照官方申报指南最终确认。与 md.js 的渲染语法兼容（**加粗**、- 列表、1. 列表、[链接]）。
+export function getDemoAnswer(policy, profile) {
+  const profileText = [profile?.industry, profile?.companyType].filter(Boolean).join('、') || '您填写的企业画像'
+  const reasons = (policy._reasons || []).filter(r => r.label !== '通用')
+  const reasonText = reasons.length
+    ? reasons.map(r => `${r.label}：${r.detail}`).join('；')
+    : '本政策需结合您的具体经营数据进一步判断'
+
+  const w = policy.window || {}
+  const windowText = (w.start && w.end) ? `${w.start} ~ ${w.end}` : (w.note || '以官方申报指南为准')
+  const validity = policy.policy_validity ? `；${policy.policy_validity}` : ''
+
+  const notes = (policy.conditions?.notes || []).filter(Boolean)
+  const condText = notes.length ? notes.map(n => `- ${n}`).join('\n') : '- 详见政策原文'
+
+  const hasMaterials = Array.isArray(policy.materials) && policy.materials.length > 0
+  const materialsText = hasMaterials
+    ? policy.materials.map((m, i) => `${i + 1}. ${m}`).join('\n') + (policy.materials_note ? `\n（${policy.materials_note}）` : '')
+    : (policy.materials_note || '详见官方申报指南')
+
+  const entry = policy.entry_url || 'https://thzwb.thnet.gov.cn/policy'
+  const sourceLink = policy.source_url ? `，[政策原文（官方）](${policy.source_url})` : ''
+  const contactText = policy.contact
+    ? `咨询电话：${policy.contact}（${policy.unit}）${sourceLink}`
+    : `主管部门：${policy.unit}${sourceLink}`
+
+  return [
+    `您好！根据您的企业信息（**${profileText}**），本政策与您的画像匹配点如下：`,
+    reasonText,
+    '',
+    `**政策依据**：${policy.source || '详见政策原文'}`,
+    `**补贴金额**：${policy.amount}`,
+    `**申报窗口**：${windowText}${validity}`,
+    '',
+    '**申报条件**：',
+    condText,
+    '',
+    '**怎么申报**：',
+    `1. 登录【天河区政策兑现服务平台】${entry}`,
+    `2. 搜索「${policy.title}」对应的申报事项并填报`,
+    '3. 按指南要求提交材料，等待主管部门审核',
+    '',
+    '**所需材料**：',
+    materialsText,
+    '',
+    `**联系与核实**：${contactText}`,
+    '',
+    '补贴到账时间以主管部门审核与资金拨付流程为准，以上内容基于公开政策整理、仅供参考，是否符合以官方申报指南和主管部门审核为准。',
+  ].join('\n')
 }
