@@ -35,8 +35,8 @@ export function isWhitelisted(rawUrl) {
 // ---------------------------------------------------------------------------
 export const RE_DATE = /^\d{4}-\d{2}-\d{2}$/
 export const RE_PHONE = /^0\d{2,3}-\d{7,8}$/
-export const RE_AMOUNT_NUMBER = /(?:\d+(?:\.\d+)?)\s*万元/
-export const RE_GUIDE_FALLBACK = /按官方.{0,6}指南|以.{0,6}指南为准|培育（预申报）|培育\(预申报\)|详见.{0,6}指南/
+export const RE_AMOUNT_NUMBER = /(?:\d+(?:\.\d+)?)\s*[万亿]元?/
+export const RE_GUIDE_FALLBACK = /按官方.{0,6}指南|以.{0,6}指南为准|培育（预申报）|培育\(预申报\)|详见.{0,6}指南|视.{0,6}情况|统筹安排/
 
 export function isValidDate(s) {
   if (!RE_DATE.test(s)) return false
@@ -133,7 +133,9 @@ export function checkPolicyLocally(policy) {
 
   // --- 有效期与窗口的跨字段一致性 ---
   const validityEnd = parseValidityEnd(policy.policy_validity)
-  if (policy.policy_validity && !validityEnd) {
+  // 预申报/以通知为准 等无固定截止日期的表述属合法形态，不视为校验问题
+  const hasValidityFallback = /预申报|以.{0,6}通知为准|以.{0,6}指南为准/.test(policy.policy_validity || '')
+  if (policy.policy_validity && !validityEnd && !hasValidityFallback) {
     add('policy_validity', 'warn', `有效期文本无法解析出截止日期: ${policy.policy_validity}`)
   }
   if (validityEnd && hasEnd && isValidDate(w.end) && w.end > validityEnd) {
