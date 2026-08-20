@@ -106,6 +106,7 @@ function useSuggestion(q) {
         <p v-if="policy.window?.start && policy.window?.end">{{ policy.window.start }} ~ {{ policy.window.end }}</p>
         <p v-else-if="policy.window?.note">{{ policy.window.note }}</p>
         <p v-if="policy.policy_validity" class="validity-line">政策有效期：{{ policy.policy_validity }}</p>
+        <p v-if="policy.doc_no" class="contact-line">发文文号：{{ policy.doc_no }}</p>
         <p v-if="policy.contact" class="contact-line">咨询电话：{{ policy.contact }}</p>
         <p v-if="policy.entry_url" class="entry-link">
           <a :href="policy.entry_url" target="_blank" rel="noopener">进入申报入口 →</a>
