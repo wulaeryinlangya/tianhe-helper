@@ -43,8 +43,8 @@ function onReset() {
     <header class="app-header">
       <div class="header-inner">
         <div class="brand">
-          <span class="logo">天河惠企</span>
-          <span class="logo-sub">政策申报助手</span>
+          <span class="logo">天河政策通</span>
+          <span class="logo-sub">AI政策申报助手</span>
         </div>
         <div class="header-actions">
           <span v-if="demoMode" class="demo-badge">演示模式</span>

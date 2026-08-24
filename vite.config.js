@@ -32,7 +32,7 @@ export default defineConfig(({ mode }) => {
     const profileInfo = `
 【企业画像】行业=${profile?.industry} | 员工=${profile?.employees} | 年营收=${profile?.revenue} | 阶段=${profile?.stage} | 类型=${profile?.companyType}
 `
-    const prompt = `你是"天河惠企政策申报助手"，帮助天河区企业主理解政策、判断是否符合申报条件、指导申报。
+    const prompt = `你是"天河政策通 AI政策申报助手"，帮助天河区企业主理解政策、判断是否符合申报条件、指导申报。
 请基于以下政策信息和企业信息，用简洁、口语化的中文回答用户问题。
 
 ${policyInfo}

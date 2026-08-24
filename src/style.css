@@ -1,4 +1,4 @@
-/* 天河惠企政策助手 全局样式 */
+/* 天河政策通 · AI政策申报助手 全局样式 */
 :root {
   --primary: #1a5fb4;
   --primary-dark: #154a8f;
@@ -798,6 +798,9 @@ body {
   .hero h1 {
     font-size: 24px;
   }
+  .hero-sub {
+    font-size: 14px;
+  }
   .form-row {
     grid-template-columns: 1fr;
   }
@@ -808,5 +811,50 @@ body {
   }
   .app-main {
     padding: 16px 14px 32px;
+  }
+
+  /* 列表工具栏：搜索框独占一行，筛选chip下沉 */
+  .list-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-input {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  .filter-chips {
+    width: 100%;
+  }
+
+  /* 政策卡片匹配理由：窄屏最多显示前3个chip，防止挤成多行 */
+  .card-reasons {
+    overflow: hidden;
+  }
+  .card-reasons .reason-chip:nth-child(n+4) {
+    display: none;
+  }
+
+  /* 详情页字号与间距优化 */
+  .detail-card h2 {
+    font-size: 18px;
+  }
+  .detail-section {
+    font-size: 14px;
+  }
+
+  /* 按钮触屏目标 */
+  .btn,
+  .sample-chip,
+  .filter-chip,
+  .suggestion-chip {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .sample-chip,
+  .filter-chip,
+  .suggestion-chip {
+    min-height: 40px;
   }
 }
