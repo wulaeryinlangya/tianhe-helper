@@ -88,7 +88,7 @@ async function scrapeNews() {
       date: formatDate(item.date),
       title: item.title,
       url: item.url,
-      thumbnail: `/news-thumbnails/news-${index + 1}.svg`,
+      thumbnail: `/news-thumbnails/news-${index + 1}.jpg`,
       summary: generateSummary(item.title)
     }))
 
@@ -141,24 +141,24 @@ function generateDefaultNews() {
       id: 1,
       date: new Date().toISOString().split('T')[0],
       title: '天河区发布2026年度科技创新扶持政策',
-      url: 'http://www.thnet.gov.cn/',
-      thumbnail: '/news-thumbnails/news-1.svg',
+      url: 'http://www.thnet.gov.cn/gzdt/zwyw/content/post_9493296.html',
+      thumbnail: '/news-thumbnails/news-1.jpg',
       summary: '天河区出台多项扶持政策，支持科技创新企业发展'
     },
     {
       id: 2,
       date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
       title: '小微企业首达标支持申报指南公布',
-      url: 'http://www.thnet.gov.cn/',
-      thumbnail: '/news-thumbnails/news-2.svg',
+      url: 'http://www.thnet.gov.cn/gzdt/tzgg/content/post_9489532.html',
+      thumbnail: '/news-thumbnails/news-2.jpg',
       summary: '小微企业当年度首次达标最高可获5万元支持'
     },
     {
       id: 3,
       date: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
       title: '软件产业发展专项资金开始申报',
-      url: 'http://www.thnet.gov.cn/',
-      thumbnail: '/news-thumbnails/news-3.svg',
+      url: 'http://www.thnet.gov.cn/gzdt/tzgg/content/post_9485674.html',
+      thumbnail: '/news-thumbnails/news-3.jpg',
       summary: '支持软件和互联网企业核心技术研发与产品研发'
     }
   ]
