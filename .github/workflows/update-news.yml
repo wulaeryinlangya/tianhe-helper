@@ -30,8 +30,8 @@ jobs:
           npm install
           npm install --no-save puppeteer
 
-      - name: 运行爬虫更新新闻数据
-        run: node scripts/update-news.mjs
+      - name: 运行深度爬虫更新新闻数据
+        run: node scripts/crawl-news-deep.mjs
         env:
           NODE_ENV: production
 
