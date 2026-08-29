@@ -33,14 +33,14 @@ async function captureScreenshot(page, config) {
   console.log(`   URL: ${config.url}`)
 
   try {
-    // 访问页面
+    // 访问页面（增加超时时间，使用 domcontentloaded 而非 networkidle2）
     await page.goto(config.url, {
-      waitUntil: 'networkidle2',
-      timeout: 30000
+      waitUntil: 'domcontentloaded',
+      timeout: 60000
     })
 
-    // 等待页面完全加载
-    await page.waitForTimeout(2000)
+    // 等待页面完全加载（使用新的 API）
+    await new Promise(resolve => setTimeout(resolve, 3000))
 
     // 设置视口大小为截图尺寸
     await page.setViewport({
@@ -117,8 +117,8 @@ async function main() {
       const success = await captureScreenshot(page, news)
       if (success) successCount++
 
-      // 延迟避免请求过快
-      await page.waitForTimeout(1000)
+      // 延迟避免请求过快（使用新的 API）
+      await new Promise(resolve => setTimeout(resolve, 1000))
     }
 
     console.log(`\n📊 完成！成功截取 ${successCount}/${newsData.length} 张图片`)
