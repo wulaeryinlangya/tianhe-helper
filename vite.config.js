@@ -1,5 +1,7 @@
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import { copyFileSync, mkdirSync } from 'fs'
+import { join } from 'path'
 
 // Vite 配置：dev server 转发 /api/chat 到火山方舟（复用 Serverless 逻辑）
 export default defineConfig(({ mode }) => {
@@ -294,6 +296,21 @@ ${profile.mainProducts ? `- 主营产品：${profile.mainProducts}` : ''}
   return {
     plugins: [
       vue(),
+      {
+        name: 'copy-data',
+        closeBundle() {
+          // 构建完成后，复制 data 目录到 dist
+          try {
+            mkdirSync('dist/data', { recursive: true })
+            copyFileSync('data/news.json', 'dist/data/news.json')
+            copyFileSync('data/policies.json', 'dist/data/policies.json')
+            copyFileSync('data/verification.json', 'dist/data/verification.json')
+            console.log('✅ Data files copied to dist/data')
+          } catch (err) {
+            console.error('❌ Failed to copy data files:', err)
+          }
+        }
+      },
       {
         name: 'api-proxy',
         configureServer(server) {
