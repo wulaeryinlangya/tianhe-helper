@@ -2,22 +2,39 @@
 
 > 天河区AI大赛 · 板块二「AI应用创新·数智天河」参赛作品
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwulaeryinlangya%2Ftianhe-helper&env=DEEPSEEK_API_KEY&envDescription=DeepSeek%20API%20Key%20%E7%94%A8%E4%BA%8E%20AI%20%E9%97%AE%E8%AF%8A%E5%8A%9F%E8%83%BD&project-name=tianhe-helper&repository-name=tianhe-helper)
+
 输入企业画像，1 秒匹配天河区可申报的惠企政策，用 AI 判断"你是否符合条件、怎么申报"，每条政策附官方原文链接可核实。
 
 ## ✨ 核心功能
 
 - **企业画像 → 政策智能匹配**：输入行业/规模/类型，秒出匹配的天河政策
+- **🤖 AI 智能问诊**（新）：3-5 轮对话式企业画像构建，雷达图可视化多维分析
+  - 前 2 轮规则化快速问答
+  - 后 3 轮 DeepSeek AI 智能追问
+  - 自动提取研发投入、专利数量、资质认证等关键信息
 - **可解释匹配**：每条政策展示"为什么匹配"的逐条理由（行业/规模/类型命中），透明可核对
 - **AI 政策问答**：针对某条政策提问"我符合吗？怎么申报？"，结合企业画像与政策原文生成回答
+- **🔄 自动更新系统**（新）：
+  - GitHub Actions 每周自动验证政策数据
+  - 手动更新检查（头部常驻按钮）
+  - 7 天未更新自动提醒
+  - 智能版本对比
 - **申报窗口与临期提醒**：展示真实申报窗口，临期高亮
 - **政策原文链接**：每条政策附天河区政府官网原文，可点击核实
 - **离线演示模式**：`?demo=1` 断网也能完整体验
 
 ## 🛠 技术栈
 
-- **前端**：Vue 3 + Vite（静态单页应用，零后端）
+- **前端**：Vue 3 + Vite（静态单页应用）
 - **匹配引擎**：画像字段 × 政策条件的标签匹配 + 可解释打分（`src/lib/matcher.js`）
-- **大模型**：火山方舟 API（`api/chat.js` Serverless 函数），问答失败自动降级到本地演示答案
+- **大模型**：
+  - DeepSeek Chat API（AI 智能问诊）
+  - 火山方舟 API（政策问答，可选）
+  - Serverless 函数部署（`api/profile-chat.js`）
+- **可视化**：ECharts + vue-echarts（雷达图企业画像）
+- **自动化**：GitHub Actions（每周政策数据验证）
+- **持久化**：localStorage（用户画像本地缓存）
 - **政策数据**：`data/policies.json`（21 条天河区真实政策，全部来自官方来源，含链接）
 - **数据核验**：`npm run verify:policies` 确定性校验（域名白名单/日期金额电话正则/链接存活/窗口一致性），输出 `data/verification.json`，列表页与详情页展示核验徽章
 
@@ -32,40 +49,60 @@ npm run verify:policies:offline  # 离线校验（跳过链接存活）
 npm run collect:policy       # 五层政策采集流水线（写入 data/staging）
 ```
 
-## 🔑 配置大模型 API（可选）
+## 🔑 配置大模型 API
 
-本地开发如需真实 AI 问答，创建 `.env.local`（已被 gitignore 忽略）：
+### 本地开发
+
+创建 `.env.local`（已被 gitignore 忽略）：
 
 ```
-ARK_API_KEY=你的火山方舟Key
+DEEPSEEK_API_KEY=你的DeepSeek API Key
+ARK_API_KEY=你的火山方舟Key（可选）
 ARK_BASE_URL=https://ark.cn-beijing.volces.com/api/coding/v3
 ARK_MODEL=deepseek-v4-flash-ga-260731
 ```
 
-不配置也能运行（AI 问答自动用演示模式降级回答）。
+### Vercel 部署
+
+在 Vercel 项目设置中添加环境变量：
+- `DEEPSEEK_API_KEY`：必需，用于 AI 智能问诊
+- `ARK_API_KEY`：可选，用于政策问答（不配置会自动降级到演示模式）
+
+**获取 DeepSeek API Key**：访问 https://platform.deepseek.com/
 
 ## 📁 项目结构
 
 ```
+├── .github/workflows/
+│   └── weekly-policy-check.yml  # 每周自动验证政策数据
 ├── data/
-│   ├── policies.json         # 政策数据（真实，含官方链接）
-│   └── verification.json     # 核验报告（npm run verify:policies 生成）
+│   ├── policies.json            # 政策数据（真实，含官方链接）
+│   └── verification.json        # 核验报告（npm run verify:policies 生成）
 ├── scripts/
-│   ├── verify-policies.mjs   # 确定性字段校验脚本
-│   ├── collect-policy.mjs    # 五层采集流水线骨架
-│   └── lib/policy-utils.js   # 校验/采集共用工具
+│   ├── verify-policies.mjs      # 确定性字段校验脚本
+│   ├── collect-policy.mjs       # 五层采集流水线骨架
+│   └── lib/policy-utils.js      # 校验/采集共用工具
+├── api/
+│   ├── chat.js                  # Serverless 政策问答函数
+│   └── profile-chat.js          # Serverless AI 问诊函数
 ├── src/
 │   ├── lib/
-│   │   ├── matcher.js        # 匹配引擎 + 可解释打分
-│   │   ├── llm.js            # 大模型问答调用
-│   │   ├── md.js             # 极简 Markdown 渲染（QA 回答）
-│   │   ├── verification.js   # 核验报告读取
-│   │   └── demo.js           # 离线演示数据
+│   │   ├── matcher.js           # 匹配引擎 + 可解释打分
+│   │   ├── profileSchema.js     # 企业画像数据结构 + 雷达图计算
+│   │   ├── profileChat.js       # AI 问诊前端接口
+│   │   ├── storage.js           # localStorage 持久化
+│   │   ├── llm.js               # 大模型问答调用
+│   │   ├── md.js                # 极简 Markdown 渲染
+│   │   ├── verification.js      # 核验报告读取
+│   │   └── demo.js              # 离线演示数据
 │   └── components/
-│       ├── ProfileForm.vue   # 首页：企业画像表单
-│       ├── PolicyList.vue    # 政策匹配列表
-│       └── PolicyDetail.vue  # 政策详情 + AI 问答
-└── api/chat.js               # Serverless 问答函数（Vercel）
+│       ├── ProfileForm.vue      # 首页：企业画像表单
+│       ├── AIConsultant.vue     # AI 智能问诊对话
+│       ├── ProfileRadarChart.vue # 企业画像雷达图
+│       ├── UpdateNotice.vue     # 更新提醒通知
+│       ├── PolicyList.vue       # 政策匹配列表
+│       └── PolicyDetail.vue     # 政策详情 + AI 问答
+└── vercel.json                  # Vercel 部署配置
 ```
 
 ## 📋 协作说明
