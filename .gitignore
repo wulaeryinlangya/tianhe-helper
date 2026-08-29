@@ -26,3 +26,4 @@ data/staging/
 *.njsproj
 *.sln
 *.sw?
+.env
