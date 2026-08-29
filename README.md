@@ -9,14 +9,21 @@
 ## ✨ 核心功能
 
 - **企业画像 → 政策智能匹配**：输入行业/规模/类型，秒出匹配的天河政策
-- **🤖 AI 智能问诊**（新）：3-5 轮对话式企业画像构建，雷达图可视化多维分析
+- **🤖 AI 智能问诊**：3-5 轮对话式企业画像构建，雷达图可视化多维分析
   - 前 2 轮规则化快速问答
   - 后 3 轮 DeepSeek AI 智能追问
   - 自动提取研发投入、专利数量、资质认证等关键信息
 - **可解释匹配**：每条政策展示"为什么匹配"的逐条理由（行业/规模/类型命中），透明可核对
-- **AI 政策问答**：针对某条政策提问"我符合吗？怎么申报？"，结合企业画像与政策原文生成回答
-- **🔄 自动更新系统**（新）：
+- **💬 AI 政策问答**：针对某条政策提问"我符合吗？怎么申报？"，结合企业画像与政策原文生成回答
+- **📰 政策动态自动轮换**（新）：
+  - 左侧栏展示天河区最新政务新闻
+  - 新闻池10条，每天自动显示不同的3条
+  - AI生成精美封面图，提升视觉体验
+  - 每天9:00自动爬取最新新闻并更新
+  - 基于日期的确定性随机算法，同一天内显示一致
+- **🔄 自动更新系统**：
   - GitHub Actions 每周自动验证政策数据
+  - 每天自动更新新闻动态和封面图
   - 手动更新检查（头部常驻按钮）
   - 7 天未更新自动提醒
   - 智能版本对比
@@ -29,13 +36,17 @@
 - **前端**：Vue 3 + Vite（静态单页应用）
 - **匹配引擎**：画像字段 × 政策条件的标签匹配 + 可解释打分（`src/lib/matcher.js`）
 - **大模型**：
-  - DeepSeek Chat API（AI 智能问诊）
-  - 火山方舟 API（政策问答，可选）
-  - Serverless 函数部署（`api/profile-chat.js`）
+  - DeepSeek Chat API（AI 智能问诊 + 政策问答）
+  - Serverless 函数部署（`api/profile-chat.js`, `api/chat.js`）
 - **可视化**：ECharts + vue-echarts（雷达图企业画像）
-- **自动化**：GitHub Actions（每周政策数据验证）
+- **自动化**：
+  - GitHub Actions（每周政策数据验证 + 每天新闻更新）
+  - Playwright 爬虫（自动抓取天河区政府网站新闻）
+  - AI 图片生成（新闻封面图自动生成）
 - **持久化**：localStorage（用户画像本地缓存）
-- **政策数据**：`data/policies.json`（21 条天河区真实政策，全部来自官方来源，含链接）
+- **数据源**：
+  - 政策数据：`data/policies.json`（21 条天河区真实政策，全部来自官方来源，含链接）
+  - 新闻数据：`data/news.json`（10 条最新政务新闻，每天自动更新）
 - **数据核验**：`npm run verify:policies` 确定性校验（域名白名单/日期金额电话正则/链接存活/窗口一致性），输出 `data/verification.json`，列表页与详情页展示核验徽章
 
 ## 🚀 本地运行
@@ -47,22 +58,23 @@ npm run build                # 生产构建
 npm run verify:policies      # 校验政策数据（需联网，测链接存活）
 npm run verify:policies:offline  # 离线校验（跳过链接存活）
 npm run collect:policy       # 五层政策采集流水线（写入 data/staging）
-node scripts/capture-news-thumbnails.mjs  # 自动截取新闻缩略图（需先安装 puppeteer）
 ```
 
-### 自动更新新闻缩略图
+### 新闻自动更新脚本
 
-首次使用需安装 Puppeteer：
 ```bash
+# 爬取最新新闻（抓取10条）
+node scripts/crawl-news-deep.mjs
+
+# AI生成新闻封面图
+node scripts/generate-ai-thumbnails.mjs
+
+# 或使用网页截图方式（需先安装 puppeteer）
 npm install --save-dev puppeteer
-```
-
-然后运行截图脚本：
-```bash
 node scripts/capture-news-thumbnails.mjs
 ```
 
-脚本会自动访问天河区政府网站并截取新闻页面缩略图，保存到 `public/news-thumbnails/`。
+脚本会自动访问天河区政府网站，抓取最新新闻并生成封面图，保存到 `data/news.json` 和 `public/news-thumbnails/`。
 
 ## 🔑 配置大模型 API
 
@@ -70,18 +82,16 @@ node scripts/capture-news-thumbnails.mjs
 
 创建 `.env.local`（已被 gitignore 忽略）：
 
-```
+```env
 DEEPSEEK_API_KEY=你的DeepSeek API Key
-ARK_API_KEY=你的火山方舟Key（可选）
-ARK_BASE_URL=https://ark.cn-beijing.volces.com/api/coding/v3
-ARK_MODEL=deepseek-v4-flash-ga-260731
+DEEPSEEK_BASE_URL=https://api.deepseek.com  # 可选，默认值
 ```
 
 ### Vercel 部署
 
 在 Vercel 项目设置中添加环境变量：
-- `DEEPSEEK_API_KEY`：必需，用于 AI 智能问诊
-- `ARK_API_KEY`：可选，用于政策问答（不配置会自动降级到演示模式）
+- `DEEPSEEK_API_KEY`：必需，用于 AI 智能问诊和政策问答
+- `DEEPSEEK_BASE_URL`：可选，默认为 `https://api.deepseek.com`
 
 **获取 DeepSeek API Key**：访问 https://platform.deepseek.com/
 
@@ -89,13 +99,18 @@ ARK_MODEL=deepseek-v4-flash-ga-260731
 
 ```
 ├── .github/workflows/
-│   └── weekly-policy-check.yml  # 每周自动验证政策数据
+│   ├── weekly-policy-check.yml  # 每周自动验证政策数据
+│   └── update-news.yml          # 每天自动更新新闻（9:00）
 ├── data/
-│   ├── policies.json            # 政策数据（真实，含官方链接）
+│   ├── policies.json            # 政策数据（21条真实政策，含官方链接）
+│   ├── news.json                # 新闻数据（10条最新政务新闻）
 │   └── verification.json        # 核验报告（npm run verify:policies 生成）
 ├── scripts/
 │   ├── verify-policies.mjs      # 确定性字段校验脚本
 │   ├── collect-policy.mjs       # 五层采集流水线骨架
+│   ├── crawl-news-deep.mjs      # 新闻爬虫（Playwright）
+│   ├── generate-ai-thumbnails.mjs  # AI封面图生成
+│   ├── capture-news-thumbnails.mjs # 网页截图封面（备选）
 │   └── lib/policy-utils.js      # 校验/采集共用工具
 ├── api/
 │   ├── chat.js                  # Serverless 政策问答函数
@@ -117,6 +132,8 @@ ARK_MODEL=deepseek-v4-flash-ga-260731
 │       ├── UpdateNotice.vue     # 更新提醒通知
 │       ├── PolicyList.vue       # 政策匹配列表
 │       └── PolicyDetail.vue     # 政策详情 + AI 问答
+├── public/
+│   └── news-thumbnails/         # 新闻封面图（AI生成或截图）
 └── vercel.json                  # Vercel 部署配置
 ```
 
