@@ -1,0 +1,56 @@
+name: Weekly Policy Data Validation
+
+on:
+  schedule:
+    - cron: '0 2 * * 1'  # 每周一凌晨2点 UTC (北京时间上午10点)
+  workflow_dispatch:      # 支持手动触发
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Validate policy data
+        run: npm run verify:policies:offline
+
+      - name: Check for expired policies
+        run: |
+          node -e "
+          const policies = require('./data/policies.json');
+          const now = new Date();
+          const expired = policies.filter(p => {
+            if (!p.window?.end) return false;
+            const end = new Date(p.window.end);
+            return end < now;
+          });
+          if (expired.length > 0) {
+            console.log('⚠️ 发现 ' + expired.length + ' 条过期政策:');
+            expired.forEach(p => console.log('  - ' + p.id + ': ' + p.title));
+            process.exit(1);
+          }
+          console.log('✅ 所有政策窗口期正常');
+          "
+
+      - name: Create Issue on Failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '政策数据验证失败 - ' + new Date().toISOString().split('T')[0],
+              body: '自动验证发现问题，请查看 [workflow run](' + context.payload.repository.html_url + '/actions/runs/' + context.runId + ')',
+              labels: ['automated', 'data-validation']
+            })
