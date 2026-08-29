@@ -194,11 +194,11 @@ async function main() {
       allNews = uniqueNews
     }
 
-    // 取前3条
-    const top3News = allNews.slice(0, 3)
+    // 取前10条
+    const top10News = allNews.slice(0, 10)
 
     // 格式化输出
-    const formattedNews = top3News.map((item, index) => ({
+    const formattedNews = top10News.map((item, index) => ({
       id: index + 1,
       date: formatDate(item.date),
       title: item.title.substring(0, 50), // 限制标题长度
@@ -207,7 +207,7 @@ async function main() {
       summary: generateSummary(item.title, item.category)
     }))
 
-    console.log('\n📝 选取的前3条新闻：')
+    console.log('\n📝 选取的前10条新闻：')
     formattedNews.forEach(news => {
       console.log(`  ${news.id}. ${news.title}`)
       console.log(`     ${news.date} | ${news.url}`)
@@ -227,26 +227,13 @@ async function main() {
  * 生成默认新闻数据
  */
 function generateDefaultNews() {
-  return [
-    {
-      title: '天河区发布2026年度科技创新扶持政策',
-      url: 'http://www.thnet.gov.cn/',
-      date: new Date().toISOString().split('T')[0],
-      category: '政务要闻'
-    },
-    {
-      title: '小微企业首达标支持申报指南公布',
-      url: 'http://www.thnet.gov.cn/',
-      date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-      category: '通知公告'
-    },
-    {
-      title: '软件产业发展专项资金开始申报',
-      url: 'http://www.thnet.gov.cn/',
-      date: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-      category: '企业服务'
-    }
-  ]
+  const baseDate = Date.now()
+  return Array.from({ length: 10 }, (_, i) => ({
+    title: `天河区政务新闻${i + 1}`,
+    url: 'http://www.thnet.gov.cn/',
+    date: new Date(baseDate - i * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    category: i < 3 ? '政务要闻' : i < 6 ? '通知公告' : '企业服务'
+  }))
 }
 
 main().catch(error => {

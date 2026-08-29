@@ -11,6 +11,54 @@ import { matchPolicies } from './lib/matcher'
 import policiesData from '../data/policies.json'
 import newsData from '../data/news.json'
 
+/**
+ * 根据当前日期随机选择N条新闻
+ * 同一天内选择结果固定（使用日期作为随机种子）
+ */
+function selectDailyNews(newsPool, count) {
+  if (newsPool.length <= count) return newsPool
+
+  // 使用当前日期作为随机种子
+  const today = new Date().toISOString().split('T')[0]  // 格式：2026-08-29
+  const seed = hashCode(today)
+
+  // 基于种子的伪随机数生成器
+  const random = seededRandom(seed)
+
+  // Fisher-Yates 洗牌算法
+  const shuffled = [...newsPool]
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1))
+    ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+  }
+
+  return shuffled.slice(0, count)
+}
+
+/**
+ * 字符串哈希函数（生成种子）
+ */
+function hashCode(str) {
+  let hash = 0
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i)
+    hash = ((hash << 5) - hash) + char
+    hash = hash & hash  // Convert to 32bit integer
+  }
+  return Math.abs(hash)
+}
+
+/**
+ * 基于种子的伪随机数生成器
+ */
+function seededRandom(seed) {
+  let state = seed
+  return function() {
+    state = (state * 9301 + 49297) % 233280
+    return state / 233280
+  }
+}
+
 const view = ref('form') // form | consultant | radar | list | detail
 const profile = ref(null)
 const matchedPolicies = ref([])
@@ -19,8 +67,8 @@ const demoMode = ref(false)
 const showConsultantPrompt = ref(false)
 const showLeftSidebar = ref(false)
 
-// 政策新闻数据（从 JSON 文件加载）
-const policyNews = ref(newsData)
+// 政策新闻数据（从 JSON 文件加载，每日随机显示3条）
+const policyNews = ref(selectDailyNews(newsData, 3))
 
 // 即将截止的政策（扩展版：包含紧急程度）
 const upcomingDeadlines = computed(() => {
