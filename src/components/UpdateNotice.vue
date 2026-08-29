@@ -35,40 +35,49 @@ async function handleUpdate() {
   updateMessage.value = '正在检查更新...'
 
   try {
-    // 方案1：如果部署在 Vercel/GitHub Pages，尝试重新加载页面
-    // 方案2：调用后端 API 触发数据更新
-    // 方案3：提示用户访问 GitHub 查看最新版本
+    // 改用 GET 请求，Vercel CDN 更稳定
+    const response = await fetch('/data/policies.json?t=' + Date.now())
 
-    // 模拟检查过程
-    await new Promise(resolve => setTimeout(resolve, 1500))
-
-    // 检查是否有新的 policies.json（通过比对 ETag 或时间戳）
-    const response = await fetch('/data/policies.json?' + Date.now(), {
-      method: 'HEAD'
-    })
-
-    if (response.ok) {
-      // 更新本地记录
-      saveLastUpdateCheck()
-      updateMessage.value = '✓ 数据已是最新！'
-
-      setTimeout(() => {
-        show.value = false
-        updateMessage.value = ''
-        // 建议刷新页面以加载最新数据
-        if (confirm('数据已更新，是否刷新页面以加载最新政策？')) {
-          window.location.reload()
-        }
-      }, 2000)
-    } else {
-      updateMessage.value = '⚠ 无法连接到服务器'
+    if (!response.ok) {
+      // 区分 404 和其他错误
+      if (response.status === 404) {
+        updateMessage.value = '⚠ 政策数据文件不存在'
+      } else {
+        updateMessage.value = `⚠ 服务器返回错误 ${response.status}`
+      }
       setTimeout(() => {
         updateMessage.value = ''
       }, 3000)
+      return
     }
+
+    // 获取最新数据并比对
+    const latestData = await response.json()
+
+    // 更新本地记录
+    saveLastUpdateCheck()
+    updateMessage.value = '✓ 数据已是最新！'
+
+    setTimeout(() => {
+      show.value = false
+      updateMessage.value = ''
+      // 建议刷新页面以加载最新数据
+      if (confirm('数据已更新，是否刷新页面以加载最新政策？')) {
+        window.location.reload()
+      }
+    }, 2000)
   } catch (error) {
     console.error('Update check failed:', error)
-    updateMessage.value = '⚠ 检查失败，请稍后重试'
+
+    // 区分网络错误和解析错误
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      updateMessage.value = '⚠ 网络连接失败，请检查网络'
+    } else if (error instanceof SyntaxError) {
+      updateMessage.value = '⚠ 数据格式错误'
+    } else {
+      updateMessage.value = '⚠ 检查失败，请稍后重试'
+    }
+
     setTimeout(() => {
       updateMessage.value = ''
     }, 3000)

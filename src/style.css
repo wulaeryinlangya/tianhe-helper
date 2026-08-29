@@ -48,7 +48,7 @@ body {
 }
 
 .header-inner {
-  max-width: 960px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 14px 20px;
   display: flex;
@@ -89,12 +89,112 @@ body {
 }
 
 /* Main */
+.app-container {
+  display: flex;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 24px;
+  padding: 0 20px;
+}
+
 .app-main {
   flex: 1;
   max-width: 960px;
   width: 100%;
-  margin: 0 auto;
-  padding: 24px 20px 40px;
+  margin: 0;
+  padding: 24px 0 40px;
+}
+
+.app-sidebar {
+  width: 320px;
+  flex-shrink: 0;
+  padding: 24px 0;
+}
+
+.sidebar-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+
+.sidebar-card h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.news-item {
+  display: block;
+  padding: 10px;
+  background: var(--bg);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.news-item:hover {
+  background: var(--primary-light);
+}
+
+.news-date {
+  display: block;
+  font-size: 12px;
+  color: var(--text-2);
+  margin-bottom: 4px;
+}
+
+.news-title {
+  display: block;
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.calendar-hint {
+  font-size: 14px;
+  color: var(--text-2);
+}
+
+.calendar-hint p {
+  margin: 0 0 8px 0;
+}
+
+.calendar-hint ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.calendar-hint li {
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.calendar-hint li:last-child {
+  border-bottom: none;
+}
+
+.deadline {
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .app-footer {
@@ -794,6 +894,22 @@ body {
 }
 
 /* Responsive */
+/* 宽度 < 1200px 隐藏侧边栏 */
+@media (max-width: 1199px) {
+  .app-sidebar {
+    display: none;
+  }
+
+  .app-container {
+    padding: 0;
+  }
+
+  .app-main {
+    margin: 0 auto;
+    padding: 24px 20px 40px;
+  }
+}
+
 @media (max-width: 640px) {
   .hero h1 {
     font-size: 24px;

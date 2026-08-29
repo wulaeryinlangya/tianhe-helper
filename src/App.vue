@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import ProfileForm from './components/ProfileForm.vue'
 import AIConsultant from './components/AIConsultant.vue'
 import ProfileRadarChart from './components/ProfileRadarChart.vue'
@@ -16,6 +16,66 @@ const matchedPolicies = ref([])
 const selectedPolicy = ref(null)
 const demoMode = ref(false)
 const showConsultantPrompt = ref(false)
+const showSidebar = ref(false)
+
+// 政策新闻数据
+const policyNews = ref([
+  {
+    id: 1,
+    date: '2026-08-25',
+    title: '天河区发布2026年度科技创新扶持政策',
+    url: 'http://www.thnet.gov.cn/'
+  },
+  {
+    id: 2,
+    date: '2026-08-20',
+    title: '小微企业首达标支持申报指南公布',
+    url: 'http://www.thnet.gov.cn/'
+  },
+  {
+    id: 3,
+    date: '2026-08-15',
+    title: '软件产业发展专项资金开始申报',
+    url: 'http://www.thnet.gov.cn/'
+  }
+])
+
+// 即将截止的政策
+const upcomingDeadlines = computed(() => {
+  if (!matchedPolicies.value || matchedPolicies.value.length === 0) return []
+  const now = new Date()
+  return matchedPolicies.value
+    .filter(p => {
+      if (!p.window?.end) return false
+      const end = new Date(p.window.end)
+      const days = Math.ceil((end - now) / (1000 * 60 * 60 * 24))
+      return days > 0 && days <= 30
+    })
+    .slice(0, 5)
+})
+
+// 浏览器历史管理
+function pushView(newView, data = {}) {
+  view.value = newView
+
+  // 推送到浏览器历史
+  const state = { view: newView, ...data }
+  const url = `#${newView}`
+  history.pushState(state, '', url)
+}
+
+function handlePopState(event) {
+  if (event.state && event.state.view) {
+    // 从历史状态恢复
+    view.value = event.state.view
+    if (event.state.policy) {
+      selectedPolicy.value = event.state.policy
+    }
+  } else {
+    // 默认回到首页
+    view.value = 'form'
+  }
+}
 
 async function checkForUpdates() {
   const checking = confirm(
@@ -36,7 +96,11 @@ async function checkForUpdates() {
     const response = await fetch('/data/policies.json?t=' + Date.now())
 
     if (!response.ok) {
-      alert('⚠ 无法连接到服务器\n\n请检查网络连接或稍后重试。')
+      if (response.status === 404) {
+        alert('⚠ 政策数据文件不存在\n\n请检查部署配置。')
+      } else {
+        alert(`⚠ 服务器返回错误 ${response.status}\n\n请稍后重试。`)
+      }
       return
     }
 
@@ -72,14 +136,19 @@ async function checkForUpdates() {
     }
   } catch (error) {
     console.error('Update check failed:', error)
-    alert(
-      '⚠ 检查更新时出错\n\n' +
-      '可能原因：\n' +
-      '- 网络连接问题\n' +
-      '- 服务器暂时不可用\n' +
-      '- 数据格式错误\n\n' +
-      '请稍后重试或联系管理员。'
-    )
+
+    let errorMsg = '⚠ 检查更新时出错\n\n'
+
+    // 区分错误类型
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      errorMsg += '网络连接失败，请检查网络连接。'
+    } else if (error instanceof SyntaxError) {
+      errorMsg += '数据格式错误，可能是文件损坏。'
+    } else {
+      errorMsg += '未知错误，请稍后重试或联系管理员。'
+    }
+
+    alert(errorMsg)
   }
 }
 
@@ -90,6 +159,25 @@ onMounted(() => {
   if (savedProfile) {
     console.log('发现历史画像数据')
   }
+
+  // 监听浏览器后退/前进
+  window.addEventListener('popstate', handlePopState)
+
+  // 初始化：替换当前历史状态
+  history.replaceState({ view: 'form' }, '', '#form')
+
+  // 检测屏幕宽度，控制侧边栏显示
+  const handleResize = () => {
+    showSidebar.value = window.innerWidth >= 1200
+  }
+  handleResize()
+  window.addEventListener('resize', handleResize)
+
+  // 清理函数
+  onBeforeUnmount(() => {
+    window.removeEventListener('popstate', handlePopState)
+    window.removeEventListener('resize', handleResize)
+  })
 })
 
 async function onProfileSubmitted(p, results) {
@@ -102,12 +190,12 @@ async function onProfileSubmitted(p, results) {
 
 function startConsultant() {
   showConsultantPrompt.value = false
-  view.value = 'consultant'
+  pushView('consultant')
 }
 
 function skipConsultant() {
   showConsultantPrompt.value = false
-  view.value = 'list'
+  pushView('list')
   saveProfile(profile.value)
 }
 
@@ -115,7 +203,7 @@ function onConsultantComplete(enrichedProfile) {
   profile.value = enrichedProfile
   saveProfile(enrichedProfile)
 
-  view.value = 'radar'
+  pushView('radar')
 }
 
 async function onRadarNext() {
@@ -130,7 +218,7 @@ async function onRadarNext() {
     matchedPolicies.value = matched
 
     console.log('切换视图到 list')
-    view.value = 'list'
+    pushView('list')
     console.log('当前 view:', view.value)
     console.log('matchedPolicies.value:', matchedPolicies.value)
   } catch (error) {
@@ -139,17 +227,17 @@ async function onRadarNext() {
 }
 
 function onConsultantSkip() {
-  view.value = 'list'
+  pushView('list')
   saveProfile(profile.value)
 }
 
 function onPolicyClick(policy) {
   selectedPolicy.value = policy
-  view.value = 'detail'
+  pushView('detail', { policy })
 }
 
 function onBackToList() {
-  view.value = 'list'
+  history.back()
 }
 
 function onReset() {
@@ -158,6 +246,8 @@ function onReset() {
   matchedPolicies.value = []
   selectedPolicy.value = null
   showConsultantPrompt.value = false
+  // 重置历史
+  history.replaceState({ view: 'form' }, '', '#form')
 }
 </script>
 
@@ -194,49 +284,82 @@ function onReset() {
       </div>
     </header>
 
-    <main class="app-main">
-      <ProfileForm v-if="view === 'form'" :demo="demoMode" @submitted="onProfileSubmitted" />
+    <div class="app-container">
+      <main class="app-main">
+        <ProfileForm v-if="view === 'form'" :demo="demoMode" @submitted="onProfileSubmitted" />
 
-      <AIConsultant
-        v-else-if="view === 'consultant'"
-        :initial-profile="profile"
-        @complete="onConsultantComplete"
-        @skip="onConsultantSkip"
-      />
-
-      <div v-else-if="view === 'radar'" class="radar-view">
-        <h2>您的企业画像</h2>
-        <ProfileRadarChart :profile="profile" />
-        <p class="radar-hint">基于您提供的信息，我们已生成多维企业画像</p>
-        <button class="btn-next" @click="onRadarNext">查看匹配结果</button>
-        <p style="margin-top: 10px; font-size: 12px; color: #999;">当前视图: {{ view }}</p>
-      </div>
-
-      <PolicyList
-        v-else-if="view === 'list'"
-        :profile="profile"
-        :policies="matchedPolicies"
-        :demo="demoMode"
-        @select="onPolicyClick"
-        @back="onReset"
-      />
-
-      <div v-else-if="view === 'detail'">
-        <PolicyDetail
-          :policy="selectedPolicy"
-          :profile="profile"
-          :demo="demoMode"
-          @back="onBackToList"
+        <AIConsultant
+          v-else-if="view === 'consultant'"
+          :initial-profile="profile"
+          @complete="onConsultantComplete"
+          @skip="onConsultantSkip"
         />
-      </div>
 
-      <div v-else style="padding: 40px; text-align: center;">
-        <p>未知视图状态: {{ view }}</p>
-        <p>Profile: {{ profile ? 'exists' : 'null' }}</p>
-        <p>Policies: {{ matchedPolicies ? matchedPolicies.length : 'null' }}</p>
-        <button @click="onReset">返回首页</button>
-      </div>
-    </main>
+        <div v-else-if="view === 'radar'" class="radar-view">
+          <h2>您的企业画像</h2>
+          <ProfileRadarChart :profile="profile" />
+          <p class="radar-hint">基于您提供的信息，我们已生成多维企业画像</p>
+          <button class="btn-next" @click="onRadarNext">查看匹配结果</button>
+          <p style="margin-top: 10px; font-size: 12px; color: #999;">当前视图: {{ view }}</p>
+        </div>
+
+        <PolicyList
+          v-else-if="view === 'list'"
+          :profile="profile"
+          :policies="matchedPolicies"
+          :demo="demoMode"
+          @select="onPolicyClick"
+          @back="onReset"
+        />
+
+        <div v-else-if="view === 'detail'">
+          <PolicyDetail
+            :policy="selectedPolicy"
+            :profile="profile"
+            :demo="demoMode"
+            @back="onBackToList"
+          />
+        </div>
+
+        <div v-else style="padding: 40px; text-align: center;">
+          <p>未知视图状态: {{ view }}</p>
+          <p>Profile: {{ profile ? 'exists' : 'null' }}</p>
+          <p>Policies: {{ matchedPolicies ? matchedPolicies.length : 'null' }}</p>
+          <button @click="onReset">返回首页</button>
+        </div>
+      </main>
+
+      <aside v-if="showSidebar" class="app-sidebar">
+        <div class="sidebar-card">
+          <h3>📰 天河政策动态</h3>
+          <div class="news-list">
+            <a
+              v-for="news in policyNews"
+              :key="news.id"
+              :href="news.url"
+              target="_blank"
+              class="news-item"
+            >
+              <span class="news-date">{{ news.date }}</span>
+              <span class="news-title">{{ news.title }}</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="sidebar-card" v-if="upcomingDeadlines.length > 0">
+          <h3>📊 政策申报日历</h3>
+          <div class="calendar-hint">
+            <p>本月即将截止的政策：</p>
+            <ul>
+              <li v-for="p in upcomingDeadlines" :key="p.id">
+                {{ p.title.substring(0, 15) }}...
+                <span class="deadline">{{ p.window.end }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+    </div>
 
     <footer class="app-footer">
       <p>天河区AI大赛 · AI应用创新数智天河 · 数据来源：天河区人民政府公开政策</p>

@@ -87,9 +87,24 @@ async function sendMessage() {
 
   } catch (error) {
     console.error('问诊错误:', error)
+
+    let errorMessage = '抱歉，问诊遇到问题。'
+
+    // 根据错误类型给出不同提示
+    if (error.message === '问诊服务请求失败') {
+      // 来自 profileChat.js，服务端返回非 200
+      errorMessage += '\n\n💡 可能原因：\n• DeepSeek API 配额不足\n• 服务器暂时不可用\n• 网络连接不稳定\n\n您可以：\n✓ 点击右上角"完成问诊"结束对话\n✓ 或稍后重试'
+    } else if (error.name === 'TypeError') {
+      // 网络错误
+      errorMessage += '\n\n💡 网络连接中断，请检查网络后重试。\n\n您也可以点击"完成问诊"查看已收集的信息。'
+    } else {
+      // 其他未知错误
+      errorMessage += '\n\n💡 您可以点击"完成问诊"直接查看企业画像。'
+    }
+
     messages.value.push({
       role: 'assistant',
-      content: '抱歉，遇到了点问题。您可以选择结束问诊直接查看画像。'
+      content: errorMessage
     })
     canFinish.value = true
   } finally {

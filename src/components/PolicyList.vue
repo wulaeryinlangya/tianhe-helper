@@ -33,7 +33,17 @@ function formatWindow(policy) {
 
 function windowState(policy) {
   const d = daysLeft(policy)
-  if (d === null) return ''
+
+  // 没有截止日期 → 检查是否有 note 说明窗口未定
+  if (d === null) {
+    // 如果有 window.note，说明窗口待定（而非永久开放）
+    if (policy.window?.note) {
+      return '窗口未定'
+    }
+    // 如果连 window 对象都没有，说明是常年开放
+    return '常年开放'
+  }
+
   if (d < 0) return '已截止'
   if (d <= 7) return '即将截止'
   return '申报中'
@@ -57,10 +67,12 @@ const sortedPolicies = computed(() => {
 const filteredPolicies = computed(() => {
   const q = search.value.trim().toLowerCase()
   return sortedPolicies.value.filter((p) => {
-    if (statusFilter.value === 'open' && windowState(p) !== '申报中') return false
-    if (statusFilter.value === 'urgent' && windowState(p) !== '即将截止') return false
-    if (statusFilter.value === 'closed' && windowState(p) !== '已截止') return false
-    if (statusFilter.value === 'none' && windowState(p) !== '') return false
+    const state = windowState(p)
+
+    if (statusFilter.value === 'open' && state !== '申报中') return false
+    if (statusFilter.value === 'urgent' && state !== '即将截止') return false
+    if (statusFilter.value === 'closed' && state !== '已截止') return false
+    if (statusFilter.value === 'none' && state !== '窗口未定' && state !== '常年开放') return false
     if (q) {
       const hay = `${p.title} ${p.summary} ${p.unit} ${(p.tags || []).join(' ')}`.toLowerCase()
       if (!hay.includes(q)) return false
