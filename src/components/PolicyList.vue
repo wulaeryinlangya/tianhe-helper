@@ -13,7 +13,6 @@ const emit = defineEmits(['select', 'back'])
 const MAX_DISPLAY = 8
 
 const search = ref('')
-const statusFilter = ref('all') // all | open | urgent | closed | none
 
 // 申报窗口展示（支持真实日期或"以官方指南为准"两种形态）
 function daysLeft(policy) {
@@ -66,37 +65,17 @@ const sortedPolicies = computed(() => {
 
 const filteredPolicies = computed(() => {
   const q = search.value.trim().toLowerCase()
-  return sortedPolicies.value.filter((p) => {
-    const state = windowState(p)
 
-    if (statusFilter.value === 'open' && state !== '申报中') return false
-    if (statusFilter.value === 'urgent' && state !== '即将截止') return false
-    if (statusFilter.value === 'closed' && state !== '已截止') return false
-    if (statusFilter.value === 'none' && state !== '窗口未定' && state !== '常年开放') return false
-    if (q) {
-      const hay = `${p.title} ${p.summary} ${p.unit} ${(p.tags || []).join(' ')}`.toLowerCase()
-      if (!hay.includes(q)) return false
-    }
-    return true
+  if (!q) return sortedPolicies.value
+
+  return sortedPolicies.value.filter((p) => {
+    const hay = `${p.title} ${p.summary} ${p.unit} ${(p.tags || []).join(' ')}`.toLowerCase()
+    return hay.includes(q)
   })
 })
 
 const shownPolicies = computed(() => filteredPolicies.value.slice(0, MAX_DISPLAY))
 const isTruncated = computed(() => filteredPolicies.value.length > MAX_DISPLAY)
-const hasActiveFilters = computed(() => search.value.trim() !== '' || statusFilter.value !== 'all')
-
-const statusFilters = [
-  { value: 'all', label: '全部' },
-  { value: 'open', label: '申报中' },
-  { value: 'urgent', label: '即将截止' },
-  { value: 'closed', label: '已截止' },
-  { value: 'none', label: '窗口未定' }
-]
-
-function clearFilters() {
-  search.value = ''
-  statusFilter.value = 'all'
-}
 
 function onCardKeydown(e, p) {
   if (e.key === 'Enter' || e.key === ' ') {
@@ -136,7 +115,7 @@ const veriTime = computed(() => {
     </div>
 
     <template v-else>
-      <!-- 筛选工具栏 -->
+      <!-- 搜索工具栏 -->
       <div class="list-toolbar">
         <input
           v-model="search"
@@ -145,26 +124,14 @@ const veriTime = computed(() => {
           placeholder="搜索政策名称 / 内容 / 部门..."
           aria-label="搜索政策"
         />
-        <div class="filter-chips" role="group" aria-label="按申报状态筛选">
-          <button
-            v-for="f in statusFilters"
-            :key="f.value"
-            class="filter-chip"
-            :class="{ active: statusFilter === f.value }"
-            :aria-pressed="statusFilter === f.value"
-            @click="statusFilter = f.value"
-          >
-            {{ f.label }}
-          </button>
-        </div>
-        <p v-if="veriTime" class="veri-time">
-          数据核验：{{ veriTime }} · 核验规则见 scripts/verify-policies.mjs
-        </p>
       </div>
 
+      <p v-if="veriTime" class="veri-time">
+        数据核验：{{ veriTime }} · 核验规则见 scripts/verify-policies.mjs
+      </p>
+
       <div v-if="filteredPolicies.length === 0" class="empty-state">
-        <p>无符合当前筛选条件的政策。</p>
-        <button class="btn btn-ghost" @click="clearFilters">清除筛选</button>
+        <p>无符合当前搜索条件的政策。</p>
       </div>
 
       <div v-else class="policy-list">
