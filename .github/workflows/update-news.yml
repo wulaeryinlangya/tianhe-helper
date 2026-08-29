@@ -35,8 +35,8 @@ jobs:
         env:
           NODE_ENV: production
 
-      - name: 截取新闻缩略图
-        run: node scripts/capture-news-thumbnails.mjs
+      - name: AI 生成新闻缩略图
+        run: node scripts/generate-ai-thumbnails.mjs
         continue-on-error: true
 
       - name: 检查是否有更新

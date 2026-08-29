@@ -2,7 +2,7 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "tianhe-helper-dev",
+      "name": "tianhe-dev",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev", "--", "--host"],
       "port": 5173
