@@ -16,28 +16,17 @@ import fs from 'fs/promises'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 const OUTPUT_DIR = join(__dirname, '../public/news-thumbnails')
+const NEWS_FILE = join(__dirname, '../data/news.json')
 
-// 新闻页面配置
-const NEWS_PAGES = [
-  {
-    id: 1,
-    url: 'http://www.thnet.gov.cn/',
-    title: '天河区发布2026年度科技创新扶持政策',
-    outputFile: 'news-1.jpg'
-  },
-  {
-    id: 2,
-    url: 'http://www.thnet.gov.cn/',
-    title: '小微企业首达标支持申报指南公布',
-    outputFile: 'news-2.jpg'
-  },
-  {
-    id: 3,
-    url: 'http://www.thnet.gov.cn/',
-    title: '软件产业发展专项资金开始申报',
-    outputFile: 'news-3.jpg'
+async function loadNewsData() {
+  try {
+    const content = await fs.readFile(NEWS_FILE, 'utf-8')
+    return JSON.parse(content)
+  } catch (error) {
+    console.error('❌ 无法读取 data/news.json:', error.message)
+    process.exit(1)
   }
-]
+}
 
 async function captureScreenshot(page, config) {
   console.log(`📸 正在截取: ${config.title}`)
@@ -60,9 +49,15 @@ async function captureScreenshot(page, config) {
     })
 
     // 截取可见区域
-    const outputPath = join(OUTPUT_DIR, config.outputFile)
+    const thumbnailPath = config.thumbnail.replace(/^\//, '')
+    const outputPath = join(__dirname, '../public', thumbnailPath)
+
+    // 提取文件扩展名，如果是 SVG 则改为 JPG
+    const ext = thumbnailPath.endsWith('.svg') ? 'jpg' : thumbnailPath.split('.').pop()
+    const finalPath = outputPath.replace(/\.svg$/, '.jpg')
+
     await page.screenshot({
-      path: outputPath,
+      path: finalPath,
       clip: {
         x: 0,
         y: 0,
@@ -73,7 +68,7 @@ async function captureScreenshot(page, config) {
       quality: 85
     })
 
-    console.log(`   ✅ 已保存到: ${config.outputFile}`)
+    console.log(`   ✅ 已保存到: ${thumbnailPath.replace(/\.svg$/, '.jpg')}`)
     return true
   } catch (error) {
     console.error(`   ❌ 截图失败: ${error.message}`)
@@ -83,6 +78,10 @@ async function captureScreenshot(page, config) {
 
 async function main() {
   console.log('🚀 开始截取天河区政府网站新闻缩略图...\n')
+
+  // 从 data/news.json 加载新闻数据
+  const newsData = await loadNewsData()
+  console.log(`📰 加载了 ${newsData.length} 条新闻\n`)
 
   // 确保输出目录存在
   try {
@@ -106,17 +105,17 @@ async function main() {
     )
 
     let successCount = 0
-    for (const config of NEWS_PAGES) {
-      const success = await captureScreenshot(page, config)
+    for (const news of newsData) {
+      const success = await captureScreenshot(page, news)
       if (success) successCount++
 
       // 延迟避免请求过快
       await page.waitForTimeout(1000)
     }
 
-    console.log(`\n📊 完成！成功截取 ${successCount}/${NEWS_PAGES.length} 张图片`)
+    console.log(`\n📊 完成！成功截取 ${successCount}/${newsData.length} 张图片`)
 
-    if (successCount < NEWS_PAGES.length) {
+    if (successCount < newsData.length) {
       console.log('\n⚠️  部分截图失败，请检查网络连接或 URL 是否正确')
     }
   } finally {

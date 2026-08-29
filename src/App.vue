@@ -9,6 +9,7 @@ import UpdateNotice from './components/UpdateNotice.vue'
 import { loadProfile, saveProfile, saveLastUpdateCheck } from './lib/storage'
 import { matchPolicies } from './lib/matcher'
 import policiesData from '../data/policies.json'
+import newsData from '../data/news.json'
 
 const view = ref('form') // form | consultant | radar | list | detail
 const profile = ref(null)
@@ -18,33 +19,8 @@ const demoMode = ref(false)
 const showConsultantPrompt = ref(false)
 const showLeftSidebar = ref(false)
 
-// 政策新闻数据（使用本地 SVG）
-const policyNews = ref([
-  {
-    id: 1,
-    date: '2026-08-25',
-    title: '天河区发布2026年度科技创新扶持政策',
-    url: 'http://www.thnet.gov.cn/',
-    thumbnail: '/news-thumbnails/news-1.svg',
-    summary: '天河区出台多项扶持政策，支持科技创新企业发展'
-  },
-  {
-    id: 2,
-    date: '2026-08-20',
-    title: '小微企业首达标支持申报指南公布',
-    url: 'http://www.thnet.gov.cn/',
-    thumbnail: '/news-thumbnails/news-2.svg',
-    summary: '小微企业当年度首次达标最高可获5万元支持'
-  },
-  {
-    id: 3,
-    date: '2026-08-15',
-    title: '软件产业发展专项资金开始申报',
-    url: 'http://www.thnet.gov.cn/',
-    thumbnail: '/news-thumbnails/news-3.svg',
-    summary: '支持软件和互联网企业核心技术研发与产品研发'
-  }
-])
+// 政策新闻数据（从 JSON 文件加载）
+const policyNews = ref(newsData)
 
 // 即将截止的政策（扩展版：包含紧急程度）
 const upcomingDeadlines = computed(() => {

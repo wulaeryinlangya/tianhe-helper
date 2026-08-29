@@ -1,0 +1,59 @@
+name: 自动更新政策新闻
+
+on:
+  schedule:
+    # 每天北京时间 9:00 运行（UTC 01:00）
+    - cron: '0 1 * * *'
+  workflow_dispatch: # 支持手动触发
+
+jobs:
+  update-news:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 安装依赖
+        run: |
+          npm install
+          npm install --no-save puppeteer
+
+      - name: 运行爬虫更新新闻数据
+        run: node scripts/update-news.mjs
+        env:
+          NODE_ENV: production
+
+      - name: 截取新闻缩略图
+        run: node scripts/capture-news-thumbnails.mjs
+        continue-on-error: true
+
+      - name: 检查是否有更新
+        id: check_changes
+        run: |
+          git diff --quiet data/news.json public/news-thumbnails/ || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: 提交更新
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/news.json public/news-thumbnails/
+          git commit -m "🤖 自动更新：政策新闻和缩略图 $(date +'%Y-%m-%d')"
+          git push
+
+      - name: 输出结果
+        run: |
+          if [ "${{ steps.check_changes.outputs.changed }}" == "true" ]; then
+            echo "✅ 新闻数据已更新并提交"
+          else
+            echo "ℹ️ 新闻数据无变化"
+          fi
