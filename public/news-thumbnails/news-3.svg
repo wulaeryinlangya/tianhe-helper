@@ -1,0 +1,10 @@
+<svg width="280" height="160" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e8a33d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f9a825;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="280" height="160" fill="url(#grad3)"/>
+  <text x="140" y="80" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" opacity="0.9">💻 软件产业资金</text>
+</svg>

@@ -18,14 +18,14 @@ const demoMode = ref(false)
 const showConsultantPrompt = ref(false)
 const showLeftSidebar = ref(false)
 
-// 政策新闻数据（新增 thumbnail 和 summary 字段）
+// 政策新闻数据（使用本地 SVG）
 const policyNews = ref([
   {
     id: 1,
     date: '2026-08-25',
     title: '天河区发布2026年度科技创新扶持政策',
     url: 'http://www.thnet.gov.cn/',
-    thumbnail: 'https://via.placeholder.com/280x160/1a5fb4/ffffff?text=%E5%A4%A9%E6%B2%B3%E6%94%BF%E7%AD%96%E6%96%B0%E9%97%BB',
+    thumbnail: '/news-thumbnails/news-1.svg',
     summary: '天河区出台多项扶持政策，支持科技创新企业发展'
   },
   {
@@ -33,7 +33,7 @@ const policyNews = ref([
     date: '2026-08-20',
     title: '小微企业首达标支持申报指南公布',
     url: 'http://www.thnet.gov.cn/',
-    thumbnail: 'https://via.placeholder.com/280x160/2e7d32/ffffff?text=%E5%B0%8F%E5%BE%AE%E4%BC%81%E4%B8%9A%E6%94%AF%E6%8C%81',
+    thumbnail: '/news-thumbnails/news-2.svg',
     summary: '小微企业当年度首次达标最高可获5万元支持'
   },
   {
@@ -41,24 +41,48 @@ const policyNews = ref([
     date: '2026-08-15',
     title: '软件产业发展专项资金开始申报',
     url: 'http://www.thnet.gov.cn/',
-    thumbnail: 'https://via.placeholder.com/280x160/e8a33d/ffffff?text=%E8%BD%AF%E4%BB%B6%E4%BA%A7%E4%B8%9A',
+    thumbnail: '/news-thumbnails/news-3.svg',
     summary: '支持软件和互联网企业核心技术研发与产品研发'
   }
 ])
 
-// 即将截止的政策
+// 即将截止的政策（扩展版：包含紧急程度）
 const upcomingDeadlines = computed(() => {
   if (!matchedPolicies.value || matchedPolicies.value.length === 0) return []
   const now = new Date()
+
   return matchedPolicies.value
     .filter(p => {
       if (!p.window?.end) return false
-      const end = new Date(p.window.end)
+      const end = new Date(p.window.end + 'T23:59:59')
       const days = Math.ceil((end - now) / (1000 * 60 * 60 * 24))
       return days > 0 && days <= 30
     })
+    .map(p => {
+      const end = new Date(p.window.end + 'T23:59:59')
+      const daysLeft = Math.ceil((end - now) / (1000 * 60 * 60 * 24))
+      return {
+        ...p,
+        daysLeft,
+        urgency: getDeadlineUrgency(daysLeft)
+      }
+    })
+    .sort((a, b) => a.daysLeft - b.daysLeft)
     .slice(0, 5)
 })
+
+// 紧急程度判断
+function getDeadlineUrgency(daysLeft) {
+  if (daysLeft <= 7) return 'urgent'
+  if (daysLeft <= 15) return 'warning'
+  return 'normal'
+}
+
+function getUrgencyIcon(urgency) {
+  if (urgency === 'urgent') return '🔴'
+  if (urgency === 'warning') return '🟡'
+  return '🟢'
+}
 
 // 浏览器历史管理
 function pushView(newView, data = {}) {
@@ -365,9 +389,34 @@ function onReset() {
         </div>
       </main>
 
-      <!-- 右侧：留白区域 -->
+      <!-- 右侧：申报日历 -->
       <aside v-if="showLeftSidebar" class="app-right-spacer">
-        <!-- 纯留白，未来可扩展 -->
+        <div class="deadline-calendar">
+          <h3>📅 申报截止提醒</h3>
+
+          <div v-if="upcomingDeadlines.length === 0" class="deadline-empty">
+            <p>✅ 当前没有紧急申报窗口</p>
+            <p>建议定期检查政策更新</p>
+          </div>
+
+          <div
+            v-else
+            v-for="item in upcomingDeadlines"
+            :key="item.id"
+            :class="['deadline-item', item.urgency]"
+            @click="onPolicyClick(item)"
+          >
+            <div class="deadline-title">
+              {{ getUrgencyIcon(item.urgency) }} {{ item.title }}
+            </div>
+            <div class="deadline-date">
+              {{ item.window.end }} 截止
+            </div>
+            <div class="deadline-countdown">
+              ⏰ 还剩 {{ item.daysLeft }} 天
+            </div>
+          </div>
+        </div>
       </aside>
     </div>
 

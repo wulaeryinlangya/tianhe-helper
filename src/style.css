@@ -118,6 +118,101 @@ body {
   border-left: 1px solid var(--border);
 }
 
+/* 右侧申报日历 */
+.deadline-calendar {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 0 20px;
+}
+
+.deadline-calendar h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.deadline-item {
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  border-left: 4px solid;
+  background: var(--bg);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.deadline-item:hover {
+  background: var(--primary-light);
+  transform: translateX(4px);
+}
+
+.deadline-item.urgent {
+  border-left-color: var(--danger);
+  background: #fef2f2;
+}
+
+.deadline-item.warning {
+  border-left-color: var(--accent);
+  background: var(--accent-light);
+}
+
+.deadline-item.normal {
+  border-left-color: var(--success);
+  background: #f2faf3;
+}
+
+.deadline-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.deadline-date {
+  font-size: 12px;
+  color: var(--text-2);
+  margin-bottom: 4px;
+}
+
+.deadline-countdown {
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.deadline-item.urgent .deadline-countdown {
+  color: var(--danger);
+}
+
+.deadline-item.warning .deadline-countdown {
+  color: var(--accent);
+}
+
+.deadline-item.normal .deadline-countdown {
+  color: var(--success);
+}
+
+.deadline-empty {
+  text-align: center;
+  padding: 24px 12px;
+  color: var(--text-2);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.deadline-empty p {
+  margin: 0 0 8px 0;
+}
+
+.deadline-empty p:last-child {
+  margin-bottom: 0;
+}
+
 /* 左侧新闻展示 */
 .news-section {
   background: var(--card);
