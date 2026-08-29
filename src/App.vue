@@ -16,27 +16,33 @@ const matchedPolicies = ref([])
 const selectedPolicy = ref(null)
 const demoMode = ref(false)
 const showConsultantPrompt = ref(false)
-const showSidebar = ref(false)
+const showLeftSidebar = ref(false)
 
-// 政策新闻数据
+// 政策新闻数据（新增 thumbnail 和 summary 字段）
 const policyNews = ref([
   {
     id: 1,
     date: '2026-08-25',
     title: '天河区发布2026年度科技创新扶持政策',
-    url: 'http://www.thnet.gov.cn/'
+    url: 'http://www.thnet.gov.cn/',
+    thumbnail: 'https://via.placeholder.com/280x160/1a5fb4/ffffff?text=%E5%A4%A9%E6%B2%B3%E6%94%BF%E7%AD%96%E6%96%B0%E9%97%BB',
+    summary: '天河区出台多项扶持政策，支持科技创新企业发展'
   },
   {
     id: 2,
     date: '2026-08-20',
     title: '小微企业首达标支持申报指南公布',
-    url: 'http://www.thnet.gov.cn/'
+    url: 'http://www.thnet.gov.cn/',
+    thumbnail: 'https://via.placeholder.com/280x160/2e7d32/ffffff?text=%E5%B0%8F%E5%BE%AE%E4%BC%81%E4%B8%9A%E6%94%AF%E6%8C%81',
+    summary: '小微企业当年度首次达标最高可获5万元支持'
   },
   {
     id: 3,
     date: '2026-08-15',
     title: '软件产业发展专项资金开始申报',
-    url: 'http://www.thnet.gov.cn/'
+    url: 'http://www.thnet.gov.cn/',
+    thumbnail: 'https://via.placeholder.com/280x160/e8a33d/ffffff?text=%E8%BD%AF%E4%BB%B6%E4%BA%A7%E4%B8%9A',
+    summary: '支持软件和互联网企业核心技术研发与产品研发'
   }
 ])
 
@@ -152,6 +158,11 @@ async function checkForUpdates() {
   }
 }
 
+// 检测屏幕宽度，控制侧边栏显示
+function handleResize() {
+  showLeftSidebar.value = window.innerWidth >= 1400
+}
+
 onMounted(() => {
   demoMode.value = new URLSearchParams(window.location.search).get('demo') === '1'
 
@@ -167,17 +178,13 @@ onMounted(() => {
   history.replaceState({ view: 'form' }, '', '#form')
 
   // 检测屏幕宽度，控制侧边栏显示
-  const handleResize = () => {
-    showSidebar.value = window.innerWidth >= 1200
-  }
   handleResize()
   window.addEventListener('resize', handleResize)
+})
 
-  // 清理函数
-  onBeforeUnmount(() => {
-    window.removeEventListener('popstate', handlePopState)
-    window.removeEventListener('resize', handleResize)
-  })
+onBeforeUnmount(() => {
+  window.removeEventListener('popstate', handlePopState)
+  window.removeEventListener('resize', handleResize)
 })
 
 async function onProfileSubmitted(p, results) {
@@ -285,6 +292,35 @@ function onReset() {
     </header>
 
     <div class="app-container">
+      <!-- 左侧：新闻展示区 -->
+      <aside v-if="showLeftSidebar" class="app-left-sidebar">
+        <div class="sidebar-card news-section">
+          <h3>📰 天河政策动态</h3>
+          <div class="news-list">
+            <a
+              v-for="news in policyNews"
+              :key="news.id"
+              :href="news.url"
+              target="_blank"
+              class="news-item-card"
+            >
+              <img
+                :src="news.thumbnail"
+                :alt="news.title"
+                class="news-thumbnail"
+                loading="lazy"
+              />
+              <div class="news-content">
+                <span class="news-date">{{ news.date }}</span>
+                <h4 class="news-title">{{ news.title }}</h4>
+                <p class="news-summary">{{ news.summary }}</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 中间：主要内容区 -->
       <main class="app-main">
         <ProfileForm v-if="view === 'form'" :demo="demoMode" @submitted="onProfileSubmitted" />
 
@@ -329,35 +365,9 @@ function onReset() {
         </div>
       </main>
 
-      <aside v-if="showSidebar" class="app-sidebar">
-        <div class="sidebar-card">
-          <h3>📰 天河政策动态</h3>
-          <div class="news-list">
-            <a
-              v-for="news in policyNews"
-              :key="news.id"
-              :href="news.url"
-              target="_blank"
-              class="news-item"
-            >
-              <span class="news-date">{{ news.date }}</span>
-              <span class="news-title">{{ news.title }}</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="sidebar-card" v-if="upcomingDeadlines.length > 0">
-          <h3>📊 政策申报日历</h3>
-          <div class="calendar-hint">
-            <p>本月即将截止的政策：</p>
-            <ul>
-              <li v-for="p in upcomingDeadlines" :key="p.id">
-                {{ p.title.substring(0, 15) }}...
-                <span class="deadline">{{ p.window.end }}</span>
-              </li>
-            </ul>
-          </div>
-        </div>
+      <!-- 右侧：留白区域 -->
+      <aside v-if="showLeftSidebar" class="app-right-spacer">
+        <!-- 纯留白，未来可扩展 -->
       </aside>
     </div>
 
