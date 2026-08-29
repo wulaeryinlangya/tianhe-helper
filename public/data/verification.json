@@ -1,0 +1,98 @@
+{
+  "generated_at": "2026-08-20T17:31:43.784Z",
+  "source": "scripts/verify-policies.mjs",
+  "online": false,
+  "summary": {
+    "total": 21,
+    "ok": 21,
+    "review": 0,
+    "failed": 0,
+    "info": 0
+  },
+  "results": {
+    "tianhe-000": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-00a": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-001": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-002": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-003": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-004": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-005": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-006": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-007": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-008": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-009": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-010": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-012": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-013": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-014": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-015": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-016": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-017": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-01a": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-018": {
+      "status": "ok",
+      "issues": []
+    },
+    "tianhe-019": {
+      "status": "ok",
+      "issues": []
+    }
+  }
+}
