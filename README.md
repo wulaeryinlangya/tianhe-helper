@@ -47,7 +47,22 @@ npm run build                # 生产构建
 npm run verify:policies      # 校验政策数据（需联网，测链接存活）
 npm run verify:policies:offline  # 离线校验（跳过链接存活）
 npm run collect:policy       # 五层政策采集流水线（写入 data/staging）
+node scripts/capture-news-thumbnails.mjs  # 自动截取新闻缩略图（需先安装 puppeteer）
 ```
+
+### 自动更新新闻缩略图
+
+首次使用需安装 Puppeteer：
+```bash
+npm install --save-dev puppeteer
+```
+
+然后运行截图脚本：
+```bash
+node scripts/capture-news-thumbnails.mjs
+```
+
+脚本会自动访问天河区政府网站并截取新闻页面缩略图，保存到 `public/news-thumbnails/`。
 
 ## 🔑 配置大模型 API
 
